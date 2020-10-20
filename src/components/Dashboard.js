@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
+import { findByEmail } from '../services/findByEmail.action.js';
+
 import AuthGlobal from '../context/AuthGlobal.js';
 import Header from './Header.js'
+import Menu from './Menu.js'
 
 export default function Dashboard(props) {
     const context = useContext(AuthGlobal);
     const [showChild, setShowChild] = useState(false);
-    const [usuarios, setUsuarios] = useState([])
 
     useEffect(() => {
         if (
@@ -16,33 +18,49 @@ export default function Dashboard(props) {
         }
         setShowChild(true);
 
-        const jwt = localStorage.getItem("jwt");
+        const jwt =sessionStorage.getItem("jwt");
+        const email = sessionStorage.getItem("email");
+
         if (jwt) {
-            fetch("http://localhost:3001/server/usuarios", {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: jwt
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setUsuarios(data.usuarios)
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
+          findByEmail(email);
+      }
     }, [context.stateUser.isAuthenticated, props.history]);
 
     if (!showChild) {
         return null;
     } else {
         return (
-            <div>
+            <div className="color-background">
             <Header/>
-              HOLA
+            <div className="container">
+              <div className= "columns">
+                <div className="column is-3">
+                  <Menu/>
+                </div>
+                <div className="column is-9">
+                <nav className="breadcrumb" aria-label="breadcrumbs">
+                    <ul>
+
+                    </ul>
+                </nav>
+                <section className="hero is-info welcome is-small">
+                  <div className="hero-body">
+                      <div className="container">
+                          <h1 className="title">
+                              Hello, {sessionStorage.getItem("name")} .
+                          </h1>
+                          <h2 className="subtitle">
+                              I hope you are having a great day!
+                          </h2>
+                      </div>
+                  </div>
+              </section>
+
+                </div>
+              </div>
+            </div>
+
+
             </div>
         );
     }

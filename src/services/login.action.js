@@ -16,7 +16,8 @@ export const loginUser = (user,dispatch,seterror) =>{ //login
     .then(data => {
       if (data) {
         const token = data.token;
-        localStorage.setItem("jwt", token);
+        sessionStorage.setItem("jwt", token);
+        sessionStorage.setItem("email",user.email);
         const decoded = jwt_decode(token);
         seterror("")
         dispatch(setCurrentUser(decoded));
@@ -39,6 +40,8 @@ export const setCurrentUser = decoded => {//si se loguea , setear datos del usua
 };
 
 export const logoutUser = (dispatch) => {//logout
-  localStorage.removeItem("jwt");
+  sessionStorage.removeItem("jwt");
+  sessionStorage.removeItem("email");
+  console.log(localStorage.getItem("jwt"));
   dispatch(setCurrentUser({}));
 };
