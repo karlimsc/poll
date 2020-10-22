@@ -4,6 +4,7 @@ import { findByEmail } from '../services/findByEmail.action.js';
 import AuthGlobal from '../context/AuthGlobal.js';
 import Header from './Header.js'
 import Menu from './Menu.js'
+import PanelPoll from './PanelPoll.js'
 
 export default function Dashboard(props) {
     const context = useContext(AuthGlobal);
@@ -23,6 +24,7 @@ export default function Dashboard(props) {
 
         if (jwt) {
           findByEmail(email);
+          console.log(sessionStorage.getItem("name"))
       }
     }, [context.stateUser.isAuthenticated, props.history]);
 
@@ -55,8 +57,13 @@ export default function Dashboard(props) {
                       </div>
                   </div>
               </section>
-
+                <div className= "columns">
+                  <div className="column is-6">
+                  <PanelPoll/>
+                  </div>
                 </div>
+                </div>
+
               </div>
             </div>
 

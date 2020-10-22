@@ -1,4 +1,5 @@
 export const findByEmail= (email) =>{
+  
   const jwt =sessionStorage.getItem("jwt");
   fetch(`http://localhost:8084/client/findByEmail/?email=${email}`, {
             method: "GET",
