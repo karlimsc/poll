@@ -37,6 +37,12 @@
   justify-content: left !important;
 }
 
+.margin-top{
+  padding-top: 1em;
+}
+.bc{
+  background-color: white;
+}
 @media screen and (min-width: 769px)
 .columns:not(.is-desktop) {
     display: flex;

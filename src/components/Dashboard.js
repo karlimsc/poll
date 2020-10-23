@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
+import { Link }  from 'react-router-dom';
 import { findByEmail } from '../services/findByEmail.action.js';
 
 import AuthGlobal from '../context/AuthGlobal.js';
 import Header from './Header.js'
 import Menu from './Menu.js'
 import PanelPoll from './PanelPoll.js'
+import Authority from './Authority.js'
+import ConfigurationsUI from './ConfigurationsUI.js'
 
 export default function Dashboard(props) {
     const context = useContext(AuthGlobal);
@@ -57,9 +60,46 @@ export default function Dashboard(props) {
                       </div>
                   </div>
               </section>
+              <section class="info-tiles margin-top">
+            <div class="tile is-ancestor has-text-centered">
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">439k</p>
+                        <p class="subtitle">Users</p>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">59k</p>
+                        <p class="subtitle">Products</p>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">3.4k</p>
+                        <p class="subtitle">Open Orders</p>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">19</p>
+                        <p class="subtitle">Exceptions</p>
+                    </article>
+                </div>
+            </div>
+        </section>
                 <div className= "columns">
                   <div className="column is-6">
-                  <PanelPoll/>
+                    <PanelPoll/>
+                  </div>
+                  <div className="column is-6">
+                  <div className="card">
+                    <Authority/>
+                    </div>
+                    <div className="margin-top"></div>
+                    <div className="card">
+                      <ConfigurationsUI/>
+                      </div>
                   </div>
                 </div>
                 </div>

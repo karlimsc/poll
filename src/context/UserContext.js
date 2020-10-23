@@ -6,7 +6,7 @@ export function UserContextProvider ({children}) {
   const [jwt, setJWT] = useState(
     () => window.sessionStorage.getItem('jwt')
   )
-  console.log(jwt);
+  
   return <Context.Provider value={{
     jwt,
     setJWT

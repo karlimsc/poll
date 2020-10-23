@@ -1,7 +1,21 @@
-import React, {Component} from "react";
+import React, { Component} from "react";
+import { Redirect } from 'react-router-dom'
+import { Link }  from 'react-router-dom'
+
 
  export default class PanelPoll extends Component {
-   state = { bpi: [] , error: null}
+
+  state = { bpi: [] , error: null , redirect: false}
+
+   handleClick = () => {
+     this.setState({ redirect:  true})
+   }
+
+   renderRedirect = () => {
+   if (this.state.redirect) {
+     return <Redirect to='/poll' />
+   }
+ }
 
   fetchUpcoming() {
     const id = sessionStorage.getItem("id");
@@ -22,18 +36,24 @@ import React, {Component} from "react";
   componentDidMount(){
       this.fetchUpcoming();
   }
+
     render() {
-      const { bpi,  error } = this.state;
-      console.log(bpi);
-        return (
+      const { bpi,  error} = this.state;
+
+        return(
                   <nav className="panel">
                    <p className="panel-heading">
                   <label> Polls</label>
                    </p>
-                   <div className="panel-block">
-                       <button className="button is-success">+ Add poll</button>
+                   <div className="panel-block bc">
+                     <Link  to={`/poll`} className="button is-success" >
+                      + Add poll1
+                      </Link>
+                       <button className="button is-success" onClick={this.handleClick}>
+                       + Add poll
+                       </button>
                    </div>
-                   <href className="panel-block">
+                   <href className="panel-block bc">
                      <span className="panel-icon">
                        <i className="fas fa-book" aria-hidden="true"></i>
                      </span>
@@ -45,9 +65,9 @@ import React, {Component} from "react";
                      )}
                    </ul>
                    </href>
-                
 
-                   <div className="panel-block">
+
+                   <div className="panel-block bc">
                      <button className="button is-link is-outlined is-fullwidth">
                        All polls
                      </button>
@@ -56,4 +76,5 @@ import React, {Component} from "react";
 
                 )
               }
-}
+
+            }
