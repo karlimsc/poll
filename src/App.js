@@ -4,7 +4,8 @@ import Dashboard from './components/Dashboard.js';
 import Login from './components/Login.js';
 import Auth from './context/Auth.js';
 import {NewPoll} from './components/NewPoll.js';
-import NewConfigurationUI from './components/ConfigurationUIForm.js'
+import NewConfigurationUI from './components/NewConfigurationUI.js'
+import NewAuthority from './components/NewAuthority.js'
 import Header from './components/Header.js'
 
 import './App.css';
@@ -19,6 +20,7 @@ function App() {
                     <Route exact path="/" component={Dashboard}/>
                     <Route path="/poll" component={NewPoll} />
                     <Route path="/configurationUI" component={NewConfigurationUI} />
+                      <Route path="/authority" component={NewAuthority} />
                     <Route path="/header" component={Header}></Route>
                 </Switch>
             </BrowserRouter>

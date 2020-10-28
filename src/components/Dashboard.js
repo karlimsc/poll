@@ -5,7 +5,7 @@ import AuthGlobal from '../context/AuthGlobal.js';
 import Header from './Header.js'
 import Menu from './Menu.js'
 import PanelPoll from './PanelPoll.js'
-import Authority from './Authority.js'
+import Authority from './PanelAuthority.js'
 import ConfigurationsUI from './PanelConfigurationsUI.js'
 
 export default function Dashboard(props) {

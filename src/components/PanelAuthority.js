@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Authority(props) {
-  let url="";
+  let url="/authority";
 return(
           <div className="card">
             <header className="card-header">

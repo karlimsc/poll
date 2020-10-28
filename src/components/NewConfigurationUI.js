@@ -28,7 +28,7 @@ export default function NewConfigurationUI(props) {
       }
       e.preventDefault();
     };
-    
+
       return(
 <div className="color-background">
 
