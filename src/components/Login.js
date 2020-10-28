@@ -38,6 +38,7 @@ export default function Login(props) {
            return null;
        } else {
            return (
+             <div className="container">
                   <form className="login-form" onSubmit={handleSubmit}>
                   <h1 className="login-title">Login</h1>
                       <div className="field">
@@ -78,6 +79,7 @@ export default function Login(props) {
                         </p>
                       </div>
                   </form>
+                  </div>
          );
      }
  }

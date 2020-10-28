@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function Authority(props) {
-  let url="";
+export default function PanelConfigurationsUI(props) {
+  let url="/configurationUI";
 return(
           <div className="card">
             <header className="card-header">
               <p className="card-header-title">
-                Authority
+                Configurations UI
               </p>
               <a href={url} className="card-header-icon" aria-label="more options">
                 <span className="icon">
@@ -17,7 +17,7 @@ return(
             <div className="card-content">
               <div className="content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                <a href={url}>@Karlimsc</a>.
+                <a href={url}>@karlimsc</a>.
                 <a href={url}>#css</a>
                 <a href={url}>#responsive</a>
                 <br/>

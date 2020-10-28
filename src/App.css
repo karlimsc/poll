@@ -40,6 +40,11 @@
 .margin-top{
   padding-top: 1em;
 }
+
+.ancho{
+  padding-right:18.5em;
+}
+
 .bc{
   background-color: white;
 }

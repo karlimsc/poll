@@ -47,11 +47,8 @@ import { Link }  from 'react-router-dom'
                    </p>
                    <div className="panel-block bc">
                      <Link  to={`/poll`} className="button is-success" >
-                      + Add poll1
+                      + Add poll
                       </Link>
-                       <button className="button is-success" onClick={this.handleClick}>
-                       + Add poll
-                       </button>
                    </div>
                    <href className="panel-block bc">
                      <span className="panel-icon">

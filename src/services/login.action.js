@@ -4,6 +4,7 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 const ENDPOINT ='http://localhost:8084/client/login';
 
 export const loginUser = (user,dispatch,seterror) =>{ //login
+if(user != null){
   fetch(`${ENDPOINT}`, {
     method: "POST",
     body: JSON.stringify(user),
@@ -30,7 +31,8 @@ export const loginUser = (user,dispatch,seterror) =>{ //login
       logoutUser(dispatch);
     });
 
-};
+  }
+}
 
 export const setCurrentUser = decoded => {//si se loguea , setear datos del usuario
   return {
