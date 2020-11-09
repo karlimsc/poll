@@ -20,6 +20,7 @@ import { Link }  from 'react-router-dom'
   fetchUpcoming() {
     const id = sessionStorage.getItem("id");
     console.log(sessionStorage.getItem("id"))
+    if(id){
      fetch(`http://localhost:8083/poll/client/${id}`, {
           method: "GET",
           headers: {
@@ -30,7 +31,7 @@ import { Link }  from 'react-router-dom'
     .then(data =>
       this.setState({
         bpi: data,
-      })).catch(error => this.setState({ error }));
+      })).catch(error => this.setState({ error }));}
   }
 
   componentDidMount(){

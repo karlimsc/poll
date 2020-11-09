@@ -1,7 +1,9 @@
 import React from "react";
 
 export default function Authority(props) {
-  let url="/authority";
+  let url_add="/authority";
+  let url_list = "/authorities";
+  let  url = "/authority";
 return(
           <div className="card">
             <header className="card-header">
@@ -24,8 +26,8 @@ return(
               </div>
             </div>
             <footer className="card-footer">
-              <a href={url} className="card-footer-item">Add</a>
-              <a href={url} className="card-footer-item">List</a>
+              <a href={url_add} className="card-footer-item">Add</a>
+              <a href={url_list} className="card-footer-item">List</a>
               <a href={url} className="card-footer-item">Delete</a>
             </footer>
           </div>

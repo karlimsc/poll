@@ -48,6 +48,13 @@
 .bc{
   background-color: white;
 }
+
+.scroll {
+  height: 240px;
+  overflow: scroll !important;
+}
+
+
 @media screen and (min-width: 769px)
 .columns:not(.is-desktop) {
     display: flex;
