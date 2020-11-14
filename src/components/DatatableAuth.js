@@ -167,6 +167,7 @@ function DataTableAuth() {
      reject()
    }
   }
+
   const handleRowDelete = (oldData, resolve) => {
 
     api.delete("/users/"+oldData.id)

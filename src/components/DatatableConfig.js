@@ -43,7 +43,7 @@ const tableIcons = {
 const api = axios.create({
   baseURL: `http://localhost:8085`
 })
-const ENDPOINTCONFIG = `http://localhost:8085`;
+
 const client= { "idClient" : sessionStorage.getItem("id")}
 
 function DataTableConfig() {
@@ -76,7 +76,7 @@ function DataTableConfig() {
          })
   }, [])
 
-  let handleRowUpdate = (newData, oldData) => {
+  let handleRowUpdate = (newData, oldData, resolve, reject) => {
     //validation
 console.log('entra en update');
     let errorList = [];
@@ -101,29 +101,26 @@ console.log('entra en update');
     }
 
     if(errorList.length < 1){
-      const putMethod = {
-       method: 'PUT', // Method itself
-       headers: {
-         Accept: "application/json",
-         "Content-Type": "application/json"
-      },
-       body: JSON.stringify(newData) // We send data in JSON format
-      }
-      fetch(`${ENDPOINTCONFIG}${oldData.id_config}`, putMethod)
+      api.put("/configurationUI/update/"+oldData.id_config, newData)
       .then(res => {
-        let dataToAdd = [...data];
-        dataToAdd.push(newData);
-        setData(dataToAdd);
-        setErrorMessages([]);
+        const dataUpdate = [...data];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        setData([...dataUpdate]);
+        resolve()
         setIserror(false)
+        setErrorMessages([])
       })
       .catch(error => {
-        setErrorMessages(["Cannot add data. Server error!"])
+        setErrorMessages(["Update failed! Server error"])
         setIserror(true)
+        reject()
       })
-      }else{
+    }else{
       setErrorMessages(errorList)
-      setIserror(true)}
+      setIserror(true)
+      reject()
+    }
 
   }
 
@@ -167,18 +164,18 @@ console.log('entra en update');
               icons={tableIcons}
               editable={{
                 onRowUpdate: (newData, oldData) =>
-            {handleRowUpdate(newData, oldData)},
+                new Promise((resolve, reject) => {
+                   handleRowUpdate(newData, oldData, resolve, reject);
+                }),
                 onRowAdd: (newData) =>
-                  new Promise((resolve) => {
-                      console.log('entra add');
-                    handleRowAdd(newData, resolve);
+                  new Promise((resolve, reject) => {
+                    handleRowAdd(newData, resolve, reject);
                   }),
                 onRowDelete: (oldData) =>
                   new Promise((resolve) => {
                     handleRowDelete(oldData, resolve)
                   }),
               }}
-
             />
           </Grid>
           <Grid item xs={3}></Grid>
