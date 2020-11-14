@@ -6,7 +6,8 @@ import Auth from './context/Auth.js';
 import NewPoll from './components/NewPoll.js';
 import NewConfigurationUI from './components/NewConfigurationUI.js'
 import NewAuthority from './components/NewAuthority.js'
-import DataTableComp from './components/DatatableComp.js'
+import DataTableAuth from './components/DatatableAuth.js'
+import DataTableConfig from './components/DatatableConfig.js'
 import Header from './components/Header.js'
 
 import './App.css';
@@ -24,7 +25,8 @@ function App() {
                     <Route path="/poll" component={NewPoll} />
                     <Route path="/configurationUI" component={NewConfigurationUI} />
                     <Route path="/authority" component={NewAuthority} />
-                    <Route path="/authorities" component={DataTableComp} />
+                    <Route path="/authorities" component={DataTableAuth} />
+                    <Route path="/configurationUIList" component={DataTableConfig} />
                     <Route path="/header" component={Header}></Route>
                 </Switch>
             </BrowserRouter>

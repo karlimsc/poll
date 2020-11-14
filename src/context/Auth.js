@@ -12,8 +12,8 @@ const Auth = props => {
     const [showChild, setShowChild] = useState(false);
 
     useEffect(() => {
-        if (localStorage.jwt) {
-            const decoded = localStorage.jwt ? localStorage.jwt : "";
+        if (sessionStorage.jwt) {
+            const decoded = sessionStorage.jwt ? sessionStorage.jwt : "";
             dispatch(setCurrentUser(jwt_decode(decoded)));
         }
         setShowChild(true);

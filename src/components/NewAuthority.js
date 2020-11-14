@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { newAuthority } from '../services/newAuthority.action.js';
+import  {ButtonBackToHome} from  './ButtonBackToHome.js'
 
 export default function NewConfigurationUI(props) {
   const [name, setName] = useState("");
@@ -18,6 +19,7 @@ export default function NewConfigurationUI(props) {
       if (name === "" || email === "" || password === "") {
           alert("Ingrese los datos correctamente");
       } else {
+        console.log(data);
           newAuthority(data, setError);
           console.log(error);
           if (error === "")
@@ -95,6 +97,7 @@ export default function NewConfigurationUI(props) {
             <div className="control">
               <button className="button is-success is-light">Cancel</button>
             </div>
+            {ButtonBackToHome}
         </div> {/* colum 6 */}
       </div> {/* columns */}
    </div> {/* container */}

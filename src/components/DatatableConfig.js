@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { forwardRef } from 'react';
-import Avatar from 'react-avatar';
 import Grid from '@material-ui/core/Grid'
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
@@ -42,25 +41,24 @@ const tableIcons = {
 };
 
 const api = axios.create({
-  baseURL: `http://localhost:8081`
+  baseURL: `http://localhost:8085`
 })
-
+const ENDPOINTCONFIG = `http://localhost:8085`;
 const client= { "idClient" : sessionStorage.getItem("id")}
 
-function validateEmail(email){
-  const re = /^\S+@\S+\.\S+$/;
-  return re.test(String(email).toLowerCase());
-}
-
-function DataTableComp() {
+function DataTableConfig() {
 
   var columns = [
-    {title: "id", field: "id_auth", hidden: true},
-    {title: "Avatar", render: rowData => <Avatar maxInitials={1} size={40} round={true} name={rowData === undefined ? " " : rowData.name} />  },
-    {title: "Name", field: "name"},
-    {title: "Email", field: "email"},
-    {title: "Code", field: "password"},
-    {title: "Status", field: "status"}
+    {title: "id", field: "id_config", hidden: true},
+    {title: "Icon", field: "icon"},
+    {title: "Background", field: "background"},
+    {title: "Main Color", field: "mainColor"},
+    {title: "Secondary Color", field: "secondaryColor"},
+    {title: "Font", field: "font"},
+    {title: "Font Size", field: "fontSize"},
+    {title: "Font Color", field: "fontColor"},
+    {title: "Status", field: "status"},
+
   ]
   const [data, setData] = useState([]); //table data
 
@@ -69,7 +67,7 @@ function DataTableComp() {
   const [errorMessages, setErrorMessages] = useState([])
 
   useEffect(() => {
-    api.get("/authorities")
+    api.get("/configurationUI/client/"+sessionStorage.getItem("id"))
         .then(res => {
             setData(res.data)
          })
@@ -78,88 +76,77 @@ function DataTableComp() {
          })
   }, [])
 
-  const handleRowUpdate = (newData, oldData, resolve) => {
+  let handleRowUpdate = (newData, oldData) => {
     //validation
-  
+console.log('entra en update');
     let errorList = [];
 
-    if(newData.name === ""){
-      errorList.push("Please enter first name")
+    if(newData.icon === ""){
+      errorList.push("Please enter icon")
     }
-    if(newData.email === "" || validateEmail(newData.email) === false){
-      errorList.push("Please enter a valid email")
+    if(newData.background === ""){
+      errorList.push("Please enter background")
+    }
+    if(newData.mainColor === ""){
+      errorList.push("Please enter main color")
+    }
+    if(newData.secondaryColor === ""){
+      errorList.push("Please enter secondary color")
+    }
+    if(newData.fontColor === ""){
+      errorList.push("Please enter main color")
     }
     if(newData.status === ""){
       errorList.push("Please enter status")
     }
 
     if(errorList.length < 1){
-
-      api.put("/authority/update/"+oldData.id_auth, newData)
+      const putMethod = {
+       method: 'PUT', // Method itself
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json"
+      },
+       body: JSON.stringify(newData) // We send data in JSON format
+      }
+      fetch(`${ENDPOINTCONFIG}${oldData.id_config}`, putMethod)
       .then(res => {
         let dataToAdd = [...data];
         dataToAdd.push(newData);
         setData(dataToAdd);
-        resolve()
-        setErrorMessages([])
+        setErrorMessages([]);
         setIserror(false)
       })
       .catch(error => {
         setErrorMessages(["Cannot add data. Server error!"])
         setIserror(true)
-        resolve()
       })
+      }else{
+      setErrorMessages(errorList)
+      setIserror(true)}
+
+  }
+
+  let handleRowAdd = (newData, resolve) => {
+    let errorList = []
+
+
+    if(errorList.length < 1){
+      console.log("entro en ADD")
     }else{
+      console.log(errorList)
       setErrorMessages(errorList)
       setIserror(true)
-      resolve()}
-
+      resolve()
+    }
   }
-
-  const handleRowAdd = (newData, resolve) => {
-    //validation
-    let errorList = []
-    if(newData.name === undefined){
-      errorList.push("Please enter first name")
-    }
-    if(newData.email === undefined || validateEmail(newData.email) === false){
-      errorList.push("Please enter a valid email")
-    }
-    if(newData.password === undefined){
-      errorList.push("Please enter code")
-    }
-    if(newData.status === undefined){
-      errorList.push("Please enter status")
-    }
-
-    if(errorList.length < 1){ //no error
-
-        console.log(newData);
-      }
-
-
-  }
-
   const handleRowDelete = (oldData, resolve) => {
 
-    api.delete("/users/"+oldData.id)
-      .then(res => {
-        const dataDelete = [...data];
-        const index = oldData.tableData.id;
-        dataDelete.splice(index, 1);
-        setData([...dataDelete]);
-        resolve()
-      })
-      .catch(error => {
-        setErrorMessages(["Delete failed! Server error"])
-        setIserror(true)
-        resolve()
-      })
+    console.log("entro aqui en delete")
   }
 
-
   return (
-    <div className="App margin-top" >
+    <div className="App table-config" >
 
       <Grid container spacing={1}>
           <Grid item xs={3}></Grid>
@@ -174,19 +161,17 @@ function DataTableComp() {
             }
           </div>
             <MaterialTable
-              title="Autoridades"
+              title="Configurations UI"
               columns={columns}
               data={data}
               icons={tableIcons}
               editable={{
                 onRowUpdate: (newData, oldData) =>
-                  new Promise((resolve) => {
-                      handleRowUpdate(newData, oldData, resolve);
-
-                  }),
+            {handleRowUpdate(newData, oldData)},
                 onRowAdd: (newData) =>
                   new Promise((resolve) => {
-                    handleRowAdd(newData, resolve)
+                      console.log('entra add');
+                    handleRowAdd(newData, resolve);
                   }),
                 onRowDelete: (oldData) =>
                   new Promise((resolve) => {
@@ -202,4 +187,4 @@ function DataTableComp() {
   );
 }
 
-export default DataTableComp;
+export default DataTableConfig;

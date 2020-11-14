@@ -1,7 +1,10 @@
 import React from "react";
 
 export default function PanelConfigurationsUI(props) {
-  let url="/configurationUI";
+  let url="/";
+  let urlAdd="/configurationUI";
+  let urlList ="/configurationUIList"
+
 return(
           <div className="card">
             <header className="card-header">
@@ -24,9 +27,9 @@ return(
               </div>
             </div>
             <footer className="card-footer">
-              <a href={url} className="card-footer-item">Add</a>
-              <a href={url} className="card-footer-item">List</a>
-              <a href={url} className="card-footer-item">Delete</a>
+              <a href={urlAdd} className="card-footer-item">Add</a>
+              <a href={urlList} className="card-footer-item">List</a>
+              <a href={urlList} className="card-footer-item">Delete</a>
             </footer>
           </div>
         )
