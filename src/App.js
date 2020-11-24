@@ -9,6 +9,7 @@ import NewAuthority from './components/NewAuthority.js'
 import DataTableAuth from './components/DatatableAuth.js'
 import DataTableConfig from './components/DatatableConfig.js'
 import Header from './components/Header.js'
+import Questions from './components/questions.js'
 
 import './App.css';
 import 'bulma/css/bulma.css'
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/authorities" component={DataTableAuth} />
                     <Route path="/configurationUIList" component={DataTableConfig} />
                     <Route path="/header" component={Header}></Route>
+                    <Route path="/questions" component={Questions}></Route>
                 </Switch>
             </BrowserRouter>
         </Auth>

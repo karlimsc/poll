@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function PanelConfigurationsUI(props) {
-  let url="/";
+  let url="/questions";
   let urlAdd="/configurationUI";
   let urlList ="/configurationUIList"
 

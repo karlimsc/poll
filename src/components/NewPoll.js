@@ -9,14 +9,50 @@ export default class PanelPoll extends Component {
       start:'',
       end:'',
       configurationUI : [],
-      authority: []
+      authority: [],
+      questions: [''],
+      active: false
     }
   }
-  state = { config: [] , error: null , redirect: false}
+  state = { config: [] , error: null , redirect: false }
+
+  handleText = i => e => {
+    let questions = [...this.state.questions]
+    questions[i] = e.target.value
+    this.setState({
+      questions
+    })
+  }
+
+  handleDelete = i => e => {
+    e.preventDefault()
+    let questions = [
+      ...this.state.questions.slice(0, i),
+      ...this.state.questions.slice(i + 1)
+    ]
+    this.setState({
+      questions
+    })
+  }
+
+  addQuestion = e => {
+    e.preventDefault()
+    let questions = this.state.questions.concat([''])
+    this.setState({
+      questions
+    })
+  }
 
   handleSubmit = () => {
     this.setState({ redirect:  true})
   }
+
+  onSelectedRow(config, clickEvent){
+      //your user object and the click event
+      this.setState({ active: true});
+      clickEvent.currentTarget.className = "is-active-row";
+     console.log(config);
+    }
 
   fetchUpcoming(){
     const ENDPOINTCONFIG ='http://localhost:8085/configurationUI/client/';
@@ -75,7 +111,6 @@ console.log(this.authority);
   <div className="columns margin-top">
 
   <div className="column is-6 margin-top">
-
       <div className="field">
         <label className="label">Name</label>
         <div className="control">
@@ -123,6 +158,22 @@ console.log(this.authority);
       placeholder="Text input"/>
     </div>
 </div>
+    <div className="field">
+        <label className="label">Questions</label>
+        <div className="control">
+      {this.state.questions.map((question, index) => (
+        <span key={index}>
+          <input className="input-questions"
+            type="text"
+            onChange={this.handleText(index)}
+            value={question}
+          />
+        <button className="button is-danger is-light" onClick={this.handleDelete(index)}>X</button>
+        </span>
+      ))}
+      <button className="button is-link is-light" onClick={this.addQuestion}>Add</button>
+      </div>
+    </div>
 
 </div>
 
@@ -150,7 +201,7 @@ console.log(this.authority);
 
             this.configurationUI.map((config, index) => {
               return (
-                <tr key={config.id}>
+                <tr key={config.id} onClick={this.onSelectedRow.bind(this, config)}>
                   <td>{config.icon}</td>
                   <td>{config.background}</td>
                   <td>{config.font}</td>
@@ -203,9 +254,9 @@ console.log(this.authority);
         </div>
       </div>
     </div>
-
-
     </div>
+
+
 
   </div> {/* columns */}
 

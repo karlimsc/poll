@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { newAuthority } from '../services/newAuthority.action.js';
 import  {ButtonBackToHome} from  './ButtonBackToHome.js'
 
-export default function NewConfigurationUI(props) {
+export default function NewAuthority(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

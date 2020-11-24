@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
+import axios from 'axios'
 import { newConfigurationUI } from '../services/newConfigurationUI.action.js';
 
 export default function NewConfigurationUI(props) {
-  const [icon, setIcon] = useState("");
+  const [icon, setIcon] = useState(null);
   const [background, setBackground] = useState("");
   const [font, setFont] = useState("");
   const [fontColor, setFontcolor] = useState("");
@@ -10,24 +11,65 @@ export default function NewConfigurationUI(props) {
   const [mainColor, setMaincolor] = useState("");
   const [secondaryColor, setSecondary] = useState("");
   const [error, setError] = useState("");
-  const client= { "idClient" : sessionStorage.getItem("id")}
+  const [data, setData] = useState(false);
+  const client= sessionStorage.getItem("id");
+  const api = axios.create({
+    baseURL: `http://localhost:8085`
+  })
+  const formData = new FormData();
 
+  useEffect(() => {
+    if(data)
+     newConfigurationUI(formData);
+   })
    const changePage= (e) => {
          props.history.push("/");
-       }
+       };
 
-  const handleSubmit = (e) => {
-      const data= {icon, background, font, fontColor, fontsize, mainColor, secondaryColor, client}
-      if (icon === "" || background === "") {
+const changeIcon =(e) =>  {
+   setIcon(e.target.files[0]);
+   console.log(e.target.files[0]);
+   const formData = new FormData();
+   formData.append(
+        "icon",
+        e.target.files[0],
+        e.target.files[0].name );
+        console.log(formData);
+ };
+
+  let handleSubmit = (e) => {
+    e.preventDefault();
+
+
+    formData.append(
+         "icon",
+         icon);
+     formData.append("background", background);
+     formData.append("font", font);
+     formData.append("fontColor", fontColor);
+     formData.append("fontSize", fontsize);
+     formData.append("mainColor", mainColor);
+     formData.append("secondaryColor", secondaryColor);
+     formData.append("status", 1);
+     formData.append("Client", client);
+
+     for (var pair of formData.entries()) {
+    console.log(pair[0]+ ' - ' + pair[1]); }
+
+      if (icon === "" || background === "" || font === "") {
           alert("Ingrese los datos correctamente");
-      } else {
-          newConfigurationUI(data, setError);
-          console.log(error);
-          if (error === "")
-          changePage();
-      }
-      e.preventDefault();
+      } else
+      newConfigurationUI('/configurationUI',
+                 formData,
+                 (response) => {
+                     setError(response.status);
+                 },
+                 (error) => {setError(error)})
+console.log(error);
+        if(error  === 200)
+        changePage();
     };
+
 
       return(
 <div className="color-background">
@@ -40,7 +82,7 @@ export default function NewConfigurationUI(props) {
 
       <div className="login-title"> New Configuration UI</div>
       <div className="container">
-      <form className="configuration-form" onSubmit={handleSubmit}>
+      <form className="configuration-form" onSubmit={handleSubmit}  id="form">
       <div className="columns margin-top">
       <div className="column is-2 margin-top">
       </div>
@@ -48,13 +90,17 @@ export default function NewConfigurationUI(props) {
 
           <div className="field">
             <label className="label">Icon</label>
+
             <div className="control">
-              <input className="input"
-              type="text"
-              name="name"
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              placeholder="Text input"/>
+              <input className="button choose-file"
+              type="file"
+              name="icon"
+              onChange={(e) => setIcon(e.target.files[0])}
+              placeholder="Select Icon"/>
+
+             <button className="button is-light" >
+               Upload
+             </button>
             </div>
           </div>
 

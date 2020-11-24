@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link }  from 'react-router-dom'
+
 import { forwardRef } from 'react';
 import Grid from '@material-ui/core/Grid'
 import MaterialTable from "material-table";
@@ -21,7 +23,7 @@ import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
 
 const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Add: () => <Link to='/configurationUI'><AddBox /></Link>,
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
@@ -44,9 +46,7 @@ const api = axios.create({
   baseURL: `http://localhost:8085`
 })
 
-const client= { "idClient" : sessionStorage.getItem("id")}
-
-function DataTableConfig() {
+function DataTableConfig(props) {
 
   var columns = [
     {title: "id", field: "id_config", hidden: true},
@@ -78,7 +78,7 @@ function DataTableConfig() {
 
   let handleRowUpdate = (newData, oldData, resolve, reject) => {
     //validation
-console.log('entra en update');
+    console.log('entra en update');
     let errorList = [];
 
     if(newData.icon === ""){
@@ -125,8 +125,8 @@ console.log('entra en update');
   }
 
   let handleRowAdd = (newData, resolve) => {
+    props.history.push("/");
     let errorList = []
-
 
     if(errorList.length < 1){
       console.log("entro en ADD")
