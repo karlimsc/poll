@@ -1,6 +1,14 @@
 import React, {Component} from "react";
+import Modal from 'react-bootstrap/Modal'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import CancelIcon from '@material-ui/icons/Cancel';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
-export default class PanelPoll extends Component {
+export default class NewPoll extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -10,41 +18,64 @@ export default class PanelPoll extends Component {
       end:'',
       configurationUI : [],
       authority: [],
+      question:'',
       questions: [''],
-      active: false
+      answers: [''],
+      questionList:[''],
+      active: false,
+      show: false
     }
   }
+
   state = { config: [] , error: null , redirect: false }
 
+  showModal = () => {
+      this.setState({ show: true });
+    };
+
+    hideModal = () => {
+      this.setState({ show: false });
+    };
+
   handleText = i => e => {
-    let questions = [...this.state.questions]
-    questions[i] = e.target.value
+    let answers = [...this.state.answers]
+    answers[i] = e.target.value
     this.setState({
-      questions
+      answers
     })
   }
 
   handleDelete = i => e => {
     e.preventDefault()
-    let questions = [
-      ...this.state.questions.slice(0, i),
-      ...this.state.questions.slice(i + 1)
+    let answers = [
+      ...this.state.answers.slice(0, i),
+      ...this.state.answers.slice(i + 1)
     ]
     this.setState({
-      questions
+      answers
     })
   }
 
-  addQuestion = e => {
+  addAnswer = e => {
     e.preventDefault()
-    let questions = this.state.questions.concat([''])
+    let answers = this.state.answers.concat([''])
     this.setState({
-      questions
+      answers
     })
   }
 
   handleSubmit = () => {
     this.setState({ redirect:  true})
+  }
+
+  createQuestion = (e) => {
+    e.preventDefault()
+    let question = this.state.question;
+    let answerList = this.state.answers;
+    let jsonQuestion = {question, answerList}
+    this.setState({questionList: jsonQuestion});
+    this.setState({ question:  e.target.value})
+    console.log(this.state.questionList);
   }
 
   onSelectedRow(config, clickEvent){
@@ -95,6 +126,7 @@ export default class PanelPoll extends Component {
     }
 
 render() {
+  console.log(this.show)
 console.log(this.configurationUI);
 console.log(this.authority);
   return(
@@ -158,22 +190,14 @@ console.log(this.authority);
       placeholder="Text input"/>
     </div>
 </div>
-    <div className="field">
-        <label className="label">Questions</label>
-        <div className="control">
-      {this.state.questions.map((question, index) => (
-        <span key={index}>
-          <input className="input-questions"
-            type="text"
-            onChange={this.handleText(index)}
-            value={question}
-          />
-        <button className="button is-danger is-light" onClick={this.handleDelete(index)}>X</button>
-        </span>
-      ))}
-      <button className="button is-link is-light" onClick={this.addQuestion}>Add</button>
-      </div>
-    </div>
+
+<div className="field">
+    <label className="label">Questions</label>
+    <AddCircleOutlineIcon className="icon-add" onClick={this.showModal} />
+    <div className="control">
+
+  </div>
+</div>
 
 </div>
 
@@ -278,6 +302,49 @@ console.log(this.authority);
 </div> {/* container */}
 
 </form>
+
+<Modal
+       show={this.state.show}
+       onHide={this.hideModal}
+       backdrop="static"
+       keyboard={false}
+     >
+       <Modal.Header closeButton>
+         <Modal.Title>Add questions</Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+         <div className="container">
+         <div className="field">
+             <label className="label">Questions</label>
+             <div className="control">
+               <input className="input-questions"
+                 type="text"
+                 onChange={(e) => this.setState({question: e.target.value})}
+                 value={this.question}
+               />
+             <label className="label">Answers</label>
+             {this.state.answers.map((answer, index) => (
+             <span key={index}>
+               <input className="input-questions"
+                 type="text"
+                 onChange={this.handleText(index)}
+                 value={answer}
+               />
+             <CancelIcon className="icon-close" onClick={this.handleDelete(index)}  />
+             </span>
+           ))}
+           <AddCircleIcon className="icon-add" onClick={this.addAnswer} />
+           </div>
+         </div>
+       </div>
+       </Modal.Body>
+       <Modal.Footer>
+         <button className="button is-success is-light" onClick={this.hideModal}>
+           Close
+         </button>
+         <button className="button is-success" onClick={this.createQuestion} >Add</button>
+       </Modal.Footer>
+     </Modal>
 
 </div>{/* big container */}
 </div>
