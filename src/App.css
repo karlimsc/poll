@@ -80,6 +80,10 @@
   color: red;
 }
 
+.display{
+  display: inline-block !important;
+}
+
 @media screen and (min-width: 769px)
 .columns:not(.is-desktop) {
     display: flex;
@@ -131,4 +135,8 @@
 
 .display-none {
   display: none;
+}
+
+.fontSize{
+  font-size: small;
 }
