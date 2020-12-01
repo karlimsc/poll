@@ -12,7 +12,7 @@ export default class NewPoll extends Component {
     super(props)
     this.state = {
       name:'',
-      type:'',
+      type:"Poll",
       start:"2021-01-01",
       end:"2021-01-02",
       config:[],
@@ -26,6 +26,7 @@ export default class NewPoll extends Component {
       participants:[],
       participantsList: [],
       questionList:[],
+      questionListData:[],
       active: false,
       show: false,
       showPart: false,
@@ -145,7 +146,7 @@ export default class NewPoll extends Component {
     let type =  this.state.type;
     let start_date= this.state.start;
     let end_date = this.state.end;
-    let questionList = this.state.questionList;
+    let questionList = this.state.questionListData;
     let participantsList = this.state.participants;
     let configurationUI = this.state.configuration;
     let authorityList = this.state.authorityList;
@@ -160,17 +161,6 @@ export default class NewPoll extends Component {
     let data= {name, type, start_date, end_date, configurationUI, participants, authorityList, questionList }
     console.log(data);
 
-            fetch('http://localhost:8083/poll', {
-                  method: "POST",
-                  body: JSON.stringify(data),
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                  }
-                 })
-                 .then(data => {
-                          console.log(data.error)
-                   });
 
   }
 
@@ -185,14 +175,20 @@ export default class NewPoll extends Component {
       });
     }
 
-    let jsonQuestion = {question, answerList}
-    this.setState({ question:  e.target.value})
-    let jsonQuestionList = [];
-    jsonQuestionList.push(jsonQuestion);
-    this.state.questionList.push(jsonQuestion);
+    let jsonQuestionData = {question, answerList}
+    this.state.questionListData.push(jsonQuestionData);
 
-    console.log('entro en createQuestion')
-    console.log(this.state.questionList);
+
+    let answerText="";
+    for(var i= 0; i < answers.length; i++) {
+     answerText= answers[i] + " "  + answerText;
+    }
+
+    let jsonQuestion = {question, answerText}
+    this.setState({ question:  e.target.value})
+
+    this.state.questionList.push(jsonQuestion);
+    console.log(this.state.questionListData);
     this.setState({ show: false });
   }
 
@@ -388,6 +384,7 @@ render() {
                 <tbody>
                   <tr key={index}>
                     <td>{question.question}</td>
+                      <td>{question.answerText}</td>
                     <CancelIcon className="icon-close" onClick={this.handleDeleteQuestion(index)}  />
                   </tr>
                 </tbody>
@@ -409,12 +406,12 @@ render() {
   <div className="field">
     <label className="label">Type</label>
     <div className="control">
-      <input className="input"
-      type="text"
-      name="type"
-      value={this.type}
-      onChange={this.changeType}
-      placeholder="Text input"/>
+      <div className="select" style= {{width: "100%"}}>
+          <select value={this.type} onChange={this.changeType} style= {{width: "100%"}}>
+          <option>Poll</option>
+          <option>Vote</option>
+        </select>
+      </div>
     </div>
 </div>
 
