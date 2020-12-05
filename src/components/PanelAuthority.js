@@ -19,16 +19,13 @@ return(
             <div className="card-content">
               <div className="content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                <a href={url}>@Karlimsc</a>.
-                <a href={url}>#css</a>
-                <a href={url}>#responsive</a>
+
                 <br/>
               </div>
             </div>
             <footer className="card-footer">
               <a href={url_add} className="card-footer-item">Add</a>
               <a href={url_list} className="card-footer-item">List</a>
-              <a href={url} className="card-footer-item">Delete</a>
             </footer>
           </div>
         )

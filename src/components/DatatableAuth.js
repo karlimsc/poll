@@ -71,7 +71,8 @@ function DataTableAuth() {
   useEffect(() => {
     api.get("/authorities")
         .then(res => {
-            setData(res.data)
+            setData(res.data);
+            console.log(res.data)
          })
          .catch(error=>{
              console.log("Error")

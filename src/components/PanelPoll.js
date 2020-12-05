@@ -56,18 +56,25 @@ import { Link }  from 'react-router-dom'
                        <i className="fas fa-book" aria-hidden="true"></i>
                      </span>
                      <ul>
-                     {bpi.map(bpi =>
+                     {(bpi && bpi.length > 0) ?
+
+                       bpi.map(bpi =>
                        <li key={bpi.id_poll}>
                          <href>{bpi.name}</href>
                        </li>
-                     )}
+                     ):<small>{error}</small>
+                   }
                    </ul>
                    </href>
 
 
                    <div className="panel-block bc">
+                     <Link  to={`/polls`} className="button is-success" >
+                     All polls
+                      </Link>
                      <button className="button is-link is-outlined is-fullwidth">
-                       All polls
+
+
                      </button>
                    </div>
                   </nav>

@@ -42,12 +42,8 @@ export default function Dashboard(props) {
                   <Menu/>
                 </div>
                 <div className="column is-9">
-                <nav className="breadcrumb" aria-label="breadcrumbs">
-                    <ul>
 
-                    </ul>
-                </nav>
-                <section className="hero is-info welcome is-small">
+                <section className="hero is-info welcome is-small" style={{"border-radius": "6px"}}>
                   <div className="hero-body">
                       <div className="container">
                           <h1 className="title">
