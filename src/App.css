@@ -108,7 +108,7 @@
 }
 
 .color-background{
-  background: #ECF0F3;
+  background: white;
 }
 
 .input-questions{
@@ -151,4 +151,13 @@
 
 .fontSize{
   font-size: small;
+}
+
+.dashboard{
+  padding-right: 80px !important;
+  padding-left: 80px  !important;
+}
+
+.padding-logout{
+  padding-bottom: 240%;
 }

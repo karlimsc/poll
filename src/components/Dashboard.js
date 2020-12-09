@@ -36,12 +36,15 @@ export default function Dashboard(props) {
         return (
             <div className="color-background">
             <Header/>
-            <div className="container">
+
+            <div>
+
               <div className= "columns">
-                <div className="column is-3">
-                  <Menu/>
+                <div className="column is-2">
+  <Menu/>
+
                 </div>
-                <div className="column is-9">
+                <div className="column is-9 dashboard">
 
                 <section className="hero is-info welcome is-small" style={{"border-radius": "6px"}}>
                   <div className="hero-body">
@@ -97,6 +100,10 @@ export default function Dashboard(props) {
                       </div>
                   </div>
                 </div>
+                </div>
+                <div className="column is-1">
+
+
                 </div>
 
               </div>
