@@ -7,6 +7,7 @@ import { Link }  from 'react-router-dom'
 
   state = { bpi: [] , error: null , redirect: false}
 
+
    handleClick = () => {
      this.setState({ redirect:  true})
    }
@@ -40,17 +41,16 @@ import { Link }  from 'react-router-dom'
 
     render() {
       const { bpi,  error} = this.state;
+      const url_polls="/polls";
+      const url_poll="/poll"
 
         return(
-                  <nav className="panel">
-                   <p className="panel-heading">
-                  <label> Polls</label>
-                   </p>
-                   <div className="panel-block bc">
-                     <Link  to={`/poll`} className="button is-success" >
-                      + Add poll
-                      </Link>
-                   </div>
+        <div className="card">
+          <header className="card-header">
+            <p className="card-header-title">
+            Polls
+            </p>
+          </header>
                    <href className="panel-block bc">
                      <span className="panel-icon">
                        <i className="fas fa-book" aria-hidden="true"></i>
@@ -67,17 +67,12 @@ import { Link }  from 'react-router-dom'
                    </ul>
                    </href>
 
+                         <footer className="card-footer">
+                          <a href={url_poll} className="card-footer-item">Add</a>
+                           <a href={url_polls} className="card-footer-item">List</a>
+                         </footer>
 
-                   <div className="panel-block bc">
-                     <Link  to={`/polls`} className="button is-success" >
-                     All polls
-                      </Link>
-                     <button className="button is-link is-outlined is-fullwidth">
-
-
-                     </button>
-                   </div>
-                  </nav>
+                  </div>
 
                 )
               }

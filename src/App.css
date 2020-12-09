@@ -16,6 +16,18 @@
   padding-bottom: 1em;
 }
 
+.form-title{
+  padding-top: 1em;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.125;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1em;
+}
+
 .control-button-login {
     box-sizing: border-box;
     clear: both;

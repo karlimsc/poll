@@ -1,5 +1,6 @@
 import React, {useEffect, useState } from "react";
 import axios from 'axios'
+import Header from './Header.js'
 import { newConfigurationUI } from '../services/newConfigurationUI.action.js';
 
 export default function NewConfigurationUI(props) {
@@ -73,14 +74,9 @@ console.log(error);
 
       return(
 <div className="color-background">
+<Header/>
 
-      <nav className="navbar is-white">
-        <div className="container">
-            <div className="navbar-brand"></div>
-        </div>
-      </nav>
-
-      <div className="login-title"> New Configuration UI</div>
+      <div className="form-title"> New Configuration UI</div>
       <div className="container">
       <form className="configuration-form" onSubmit={handleSubmit}  id="form">
       <div className="columns margin-top">

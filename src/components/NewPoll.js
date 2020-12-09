@@ -1,8 +1,6 @@
 import React, {Component} from "react";
+import Header from './Header.js'
 import Modal from 'react-bootstrap/Modal'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalBody from 'react-bootstrap/ModalBody'
-import ModalFooter from 'react-bootstrap/ModalFooter'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -180,8 +178,8 @@ export default class NewPoll extends Component {
 
 
     let answerText="";
-    for(var i= 0; i < answers.length; i++) {
-     answerText= answers[i] + " "  + answerText;
+    for(var j= 0; j < answers.length; i++) {
+     answerText= answers[j] + " "  + answerText;
     }
 
     let jsonQuestion = {question, answerText}
@@ -274,13 +272,9 @@ render() {
 //console.log(this.authority);
   return(
 <div className="color-background">
-  <nav className="navbar is-white">
-    <div className="container">
-        <div className="navbar-brand"></div>
-    </div>
-  </nav>
+<Header/>
 
-  <div className="login-title"> New Poll</div>
+  <div className="form-title"> New Poll</div>
 <div className="container">
   <form className="configuration-form" onSubmit={this.handleSubmit}>
   <div className="columns margin-top">

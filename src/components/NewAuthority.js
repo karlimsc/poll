@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from './Header.js'
 import { newAuthority } from '../services/newAuthority.action.js';
 import  {ButtonBackToHome} from  './ButtonBackToHome.js'
 
@@ -30,14 +31,9 @@ export default function NewAuthority(props) {
 
       return(
 <div className="color-background">
+  <Header/>
 
-      <nav className="navbar is-white">
-        <div className="container">
-            <div className="navbar-brand"></div>
-        </div>
-      </nav>
-
-      <div className="login-title"> New Authority</div>
+      <div className="form-title"> New Authority</div>
   <div className="container">
       <form className="configuration-form" onSubmit={handleSubmit}>
       <div className="columns margin-top">
