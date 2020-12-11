@@ -319,9 +319,9 @@ render() {
              <th>Background</th>
              <th>Font</th>
              <th>Fontsize</th>
-             <th>Font Color</th>
-             <th>Main Color</th>
-             <th>Secondary Color</th>
+             <th>Fontcolor</th>
+             <th>Maincolor</th>
+             <th>Secondarycolor</th>
            </tr>
              </thead>
 
@@ -488,7 +488,11 @@ render() {
 
     </div> {/* columns */}
  {/* columns */}
-
+ <div className="column is-12" style={{display:"grid"}}>
+ <button  className="button is-success">
+ Submit
+ </button>
+ </div>
 </form>
 
 <Modal
