@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
@@ -11,7 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 const useStyles = makeStyles({
   root: {
@@ -57,15 +58,19 @@ export default function TypographyMenu() {
             Poll
           </Typography>
         </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <BarChartIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Reports</Typography>
+        </MenuItem>
         <div className="padding-logout">
         </div>
         <MenuItem>
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />
             </ListItemIcon>
-
             <Typography variant="inherit">Logout</Typography>
-
         </MenuItem>
 
       </MenuList>

@@ -274,10 +274,11 @@ render() {
 <div className="color-background">
 <Header/>
 
-  <div className="form-title"> New Poll</div>
 <div className="container">
+
   <form className="configuration-form" onSubmit={this.handleSubmit}>
-  <div className="columns margin-top">
+      <div className="form-title"> New Poll</div>
+  <div className="row">
 
   <div className="column is-6 margin-top">
       <div className="field">
@@ -324,8 +325,7 @@ render() {
            </tr>
              </thead>
 
-             {
-              (this.configurationUI && this.configurationUI.length > 0) ?
+             {(this.configurationUI && this.configurationUI.length > 0) ?
 
               this.configurationUI.map((config, index) => {
                 return (
@@ -345,16 +345,12 @@ render() {
                   </tbody>
                 );
               })
-
-
               :<tfoot>{this.state.msj}</tfoot>
              }
-
        </table>
-      </div>
     </div>
   </div>
-
+</div>
 
 
 <div className="field">
@@ -370,8 +366,7 @@ render() {
            </tr>
              </thead>
 
-             {
-              (this.state.questionList && this.state.questionList.length > 0) ?
+             {(this.state.questionList && this.state.questionList.length > 0) ?
 
               this.state.questionList.map((question, index) => {
                 return (
@@ -491,26 +486,8 @@ render() {
 
 
 
-
-
-  </div> {/* columns */}
-
-
-
-<div className="container">
-  <div className="columns"></div>
-    <div  className="column is-4"></div>
-    <div className="column is-6">
-      <div className="field is-grouped">
-        <div className="control">
-          <button className="button is-success"  value="Submit">Submit</button>
-        </div>
-        <div className="control">
-          <button className="button is-success is-light">Cancel</button>
-        </div>
-    </div> {/* colum 6 */}
-  </div> {/* columns */}
-</div> {/* container */}
+    </div> {/* columns */}
+ {/* columns */}
 
 </form>
 
