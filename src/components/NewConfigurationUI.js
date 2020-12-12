@@ -31,25 +31,8 @@ export default function NewConfigurationUI(props) {
        };
 
 const onIconChange =(e) =>  {
-
-   const formData = new FormData()
-   formData.append("image", e.target.files[0]);
-   for (var pair of formData.entries()) {
-  console.log(pair[0]+ ' - ' + pair[1]); }
-
-
-   api.post("/configurationUI/imageUpload", formData)
-     .then(res => {
-       setRuta(res.data);
-       console.log(res.data)
-       console.log(ruta)
-     })
-     .catch(err => {
-       console.log(err);
-     })
-
-     console.log(ruta);
-
+  setIcon(e.target.files[0]);
+  setRuta(URL.createObjectURL(e.target.files[0]));
  };
 
  const onBackgroundChange = (updatedColor) => {
@@ -71,10 +54,7 @@ const onIconChange =(e) =>  {
   let handleSubmit = (e) => {
     e.preventDefault();
 
-
-    formData.append(
-         "icon",
-         icon);
+    formData.append( "icon",icon);
      formData.append("background", background);
      formData.append("font", font);
      formData.append("fontColor", fontColor);
@@ -86,7 +66,9 @@ const onIconChange =(e) =>  {
 
      for (var pair of formData.entries()) {
     console.log(pair[0]+ ' - ' + pair[1]); }
-
+    console.log(icon);
+    console.log(background);
+    console.log(font);
       if (icon === "" || background === "" || font === "") {
           alert("Ingrese los datos correctamente");
       } else
@@ -152,16 +134,22 @@ console.log(error);
         style={{width:"100%"}}
         type="file"
         name="icon"
+        accept="image/gif, image/jpeg, image/png"
         onChange={onIconChange}
         placeholder="Select Icon"/>
       </div>
+      <div className="control">
+        <img className="image-upload" src={ruta} alt="" />
+      </div>
     </div>
+
+
 
     <div className="field">
           <label className="label">Font</label>
           <div className="control">
             <div className="select ancho">
-              <select className="ancho" value={(e) => setFont(e.target.value)}>
+              <select className="ancho" onChange={(e) => setFont(e.target.value)}>
               <option>Select option</option>
                 <option>Arial</option>
                   <option>Comic Sans</option>
@@ -176,9 +164,9 @@ console.log(error);
         <div className="select ancho">
           <select className="ancho" value={fontsize} onChange={(e) => setFontsize(e.target.value)}>
           <option>Select option</option>
-            <option>small</option>
-            <option>medium</option>
-            <option>large</option>
+            <option>10</option>
+            <option>12</option>
+            <option>14</option>
           </select>
         </div>
       </div>

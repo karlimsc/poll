@@ -213,3 +213,7 @@
 .ReactColorPicker-module_hex_value__10kKY{
   width: 85px !important;
 }
+
+.image-upload{
+  max-width: 185px;
+}
