@@ -354,15 +354,13 @@ render() {
 
 
 <div className="field">
-    <label className="label display">Questions</label>
-    <AddCircleOutlineIcon className="icon-add" onClick={this.showModal} />
     <div className="control">
       <div className="table-container scroll">
       <table className="table">
          <thead>
            <tr>
-             <th>Question</th>
-             <th>Answers</th>
+             <th> <AddCircleOutlineIcon className="icon-add" onClick={this.showModal} /> Question</th>
+             <th></th>
            </tr>
              </thead>
 
@@ -452,14 +450,12 @@ render() {
     </div>
 
     <div className="field">
-        <label className="label display">Participants</label>
-        <AddCircleOutlineIcon className="icon-add" onClick={this.showModalPart} />
         <div className="control">
           <div className="table-container scroll">
           <table className="table">
              <thead>
                <tr>
-                 <th>Participants</th>
+                <th> <AddCircleOutlineIcon className="icon-add" onClick={this.showModalPart} />  Participants</th>
                </tr>
                  </thead>
 
@@ -489,7 +485,7 @@ render() {
     </div> {/* columns */}
  {/* columns */}
  <div className="column is-12" style={{display:"grid"}}>
- <button  className="button is-success">
+ <button  className="button azul-banner">
  Submit
  </button>
  </div>

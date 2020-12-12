@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Header from './Header.js'
 import { newAuthority } from '../services/newAuthority.action.js';
-import  {ButtonBackToHome} from  './ButtonBackToHome.js'
 
 export default function NewAuthority(props) {
   const [name, setName] = useState("");
@@ -33,9 +32,9 @@ export default function NewAuthority(props) {
 <div className="color-background">
   <Header/>
 
-      <div className="form-title"> New Authority</div>
   <div className="container">
       <form className="configuration-form" onSubmit={handleSubmit}>
+          <div className="form-title"> New Authority</div>
       <div className="columns margin-top">
       <div className="column is-2 margin-top">
       </div>
@@ -80,24 +79,11 @@ export default function NewAuthority(props) {
 
       </div> {/* columns */}
 
-
-
-    <div className="container">
-      <div className="columns"></div>
-        <div  className="column is-4"></div>
-        <div className="column is-6">
-          <div className="field is-grouped">
-            <div className="control">
-              <button className="button is-success"  value="Submit">Submit</button>
-            </div>
-            <div className="control">
-              <button className="button is-success is-light">Cancel</button>
-            </div>
-            {ButtonBackToHome}
-        </div> {/* colum 6 */}
-      </div> {/* columns */}
-   </div> {/* container */}
-
+      <div className="column is-12" style={{display:"grid"}}>
+      <button  className="button azul-banner">
+      Submit
+      </button>
+      </div>
 </form>
 
   </div>{/* big container */}

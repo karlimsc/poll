@@ -59,7 +59,7 @@
 }
 
 .ancho{
-  padding-right:18.5em;
+  width: 100%;
 }
 
 .bc{
@@ -80,7 +80,7 @@
 }
 
 .icon-add{
-  color: rgb(76, 175, 80);
+  color: black;
 }
 
 .icon-answer{
@@ -203,4 +203,13 @@
     padding-top: 1%;
     padding-left: 4%;
     padding-right: 4%;
+}
+
+.azul-banner{
+  background-color: #3298dc !important;
+  color: white !important;
+}
+
+.ReactColorPicker-module_hex_value__10kKY{
+  width: 85px !important;
 }

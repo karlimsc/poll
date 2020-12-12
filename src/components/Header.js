@@ -23,7 +23,6 @@ export default function Header() {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                <button  className="button is-light" onClick={cerrarSesion}>Logout</button>
               </div>
             </div>
           </div>

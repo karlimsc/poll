@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,6 +13,9 @@ import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+import AuthGlobal from "../context/AuthGlobal";
+import { logoutUser } from "../services/login.action.js";
+
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +24,10 @@ const useStyles = makeStyles({
 });
 
 export default function TypographyMenu() {
-
+  const context = useContext(AuthGlobal);
+  const cerrarSesion = () => {
+      logoutUser(context.dispatch);
+  };
   const classes = useStyles();
   const url_poll="/poll"
 
@@ -70,7 +76,7 @@ export default function TypographyMenu() {
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />
             </ListItemIcon>
-            <Typography variant="inherit">Logout</Typography>
+            <Typography variant="inherit" onClick={cerrarSesion}>Logout</Typography>
         </MenuItem>
 
       </MenuList>
