@@ -7,9 +7,9 @@ import { newConfigurationUI } from '../services/newConfigurationUI.action.js';
 export default function NewConfigurationUI(props) {
   const [icon, setIcon] = useState(null);
   const [background, setBackground] = useState('#090000');
-  const [font, setFont] = useState("");
+  const [font, setFont] = useState("Arial");
   const [fontColor, setFontcolor] = useState('#090000');
-  const [fontsize, setFontsize] = useState(0);
+  const [fontsize, setFontsize] = useState(8);
   const [mainColor, setMaincolor] = useState('#090000');
   const [secondaryColor, setSecondary] = useState('#090000');
   const [error, setError] = useState("");
@@ -19,6 +19,7 @@ export default function NewConfigurationUI(props) {
   const api = axios.create({
     baseURL: `http://localhost:8085`
   })
+  const small = 10; const medium= 12; const large= 14;
   const formData = new FormData();
 
 
@@ -51,6 +52,22 @@ const onIconChange =(e) =>  {
       setFontcolor(updatedColor);
     };
 
+    const onFontSizeChange = (e) => {
+      console.log(fontsize);
+      console.log(e.target.value)
+       if(e.target.value === "small"){
+         console.log('entra en if small')
+       setFontsize(small)}
+       else if(e.target.value === "medium"){
+          console.log('entra en if medium')
+       setFontsize(medium) }
+       else if(e.target.value === "large"){
+          console.log('entra en if large')
+       setFontsize(large)}
+
+       console.log(fontsize)
+     };
+
   let handleSubmit = (e) => {
     e.preventDefault();
 
@@ -64,11 +81,6 @@ const onIconChange =(e) =>  {
      formData.append("status", 1);
      formData.append("Client", client);
 
-     for (var pair of formData.entries()) {
-    console.log(pair[0]+ ' - ' + pair[1]); }
-    console.log(icon);
-    console.log(background);
-    console.log(font);
       if (icon === "" || background === "" || font === "") {
           alert("Ingrese los datos correctamente");
       } else
@@ -150,7 +162,6 @@ console.log(error);
           <div className="control">
             <div className="select ancho">
               <select className="ancho" onChange={(e) => setFont(e.target.value)}>
-              <option>Select option</option>
                 <option>Arial</option>
                   <option>Comic Sans</option>
               </select>
@@ -162,11 +173,10 @@ console.log(error);
       <label className="label">Font Size</label>
       <div className="control">
         <div className="select ancho">
-          <select className="ancho" value={fontsize} onChange={(e) => setFontsize(e.target.value)}>
-          <option>Select option</option>
-            <option>10</option>
-            <option>12</option>
-            <option>14</option>
+          <select className="ancho" onChange={onFontSizeChange}>
+            <option>small</option>
+            <option>medium</option>
+            <option>large</option>
           </select>
         </div>
       </div>

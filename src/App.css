@@ -217,3 +217,12 @@
 .image-upload{
   max-width: 185px;
 }
+
+.navbar-link:not(.is-arrowless)::after{
+  border-color: white !important;
+}
+
+.is-active-menu{
+   color: white;
+  background-color: rgba(0,0,0,.03);
+}
