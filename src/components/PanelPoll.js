@@ -1,11 +1,10 @@
 import React, { Component} from "react";
 import { Redirect } from 'react-router-dom'
-import { Link }  from 'react-router-dom'
 
 
  export default class PanelPoll extends Component {
 
-  state = { bpi: [] , error: null , redirect: false}
+  state = { bpi: [] , fail: null , redirect: false, requestFailed: false}
 
 
    handleClick = () => {
@@ -28,11 +27,15 @@ import { Link }  from 'react-router-dom'
             Accept: "application/json",
             "Content-Type": "application/json"
          }
-    }).then(res => res.json())
-    .then(data =>
-      this.setState({
-        bpi: data,
-      })).catch(error => this.setState({ error }));}
+    }).then(response => response.json())
+    .then(data => {
+      this.setState({bpi : data})}
+    ).catch((error) => {
+
+console.log("error: " + error);
+this.setState({ requestFailed: true })})
+}
+
   }
 
   componentDidMount(){
@@ -40,10 +43,9 @@ import { Link }  from 'react-router-dom'
   }
 
     render() {
-      const { bpi,  error} = this.state;
+      const { bpi} = this.state;
       const url_polls="/polls";
-      const url_poll="/poll"
-
+      const url_poll="/poll";
         return(
         <div className="card">
           <header className="card-header">
@@ -58,11 +60,11 @@ import { Link }  from 'react-router-dom'
                      <ul>
                      {(bpi && bpi.length > 0) ?
 
-                       bpi.map(bpi =>
-                       <li key={bpi.id_poll}>
+                       bpi.map((bpi, index) =>
+                       <li key={index}>
                          <href>{bpi.name}</href>
                        </li>
-                     ):<small>{error}</small>
+                     ):<small>Ha ocurrido un error.</small>
                    }
                    </ul>
                    </href>

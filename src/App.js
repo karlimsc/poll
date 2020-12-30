@@ -11,7 +11,7 @@ import DataTableConfig from './components/DatatableConfig.js'
 import DataTablePoll from './components/DatatablePoll.js'
 import Header from './components/Header.js'
 import Questions from './components/questions.js'
-import {pollEdit} from './components/pollEdit.js'
+import {PollEdit} from './components/PollEdit.js'
 
 import './App.css';
 import 'bulma/css/bulma.css'
@@ -26,7 +26,7 @@ function App() {
                     <Route path="/login" component={Login} />
                     <Route exact path="/" component={Dashboard}/>
                     <Route path="/poll" component={NewPoll} />
-                    <Route path="/pollEdit/:id" component={pollEdit} />
+                    <Route path="/pollEdit/:id" component={PollEdit} />
                     <Route path="/configurationUI" component={NewConfigurationUI} />
                     <Route path="/authority" component={NewAuthority} />
                     <Route path="/authorities" component={DataTableAuth} />

@@ -4,6 +4,13 @@ import Modal from 'react-bootstrap/Modal'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Menu from './Menu.js'
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default class NewPoll extends Component {
   constructor (props) {
@@ -28,12 +35,23 @@ export default class NewPoll extends Component {
       active: false,
       show: false,
       showPart: false,
+      showResp: false,
+      showError: false,
+      openSnack: false,
       selected: null, selectedAuth: null,
-      msj:'No ha agregado registros.'
+      msj:'No ha agregado registros.',
+      error:""
     };
   }
 
   state = { config: [] , error: null , redirect: false }
+
+  handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({openSnack: false});
+  };
 
   changeName = (e) =>{
        this.setState({name: e.target.value});
@@ -58,17 +76,33 @@ export default class NewPoll extends Component {
       this.setState({ show: true });
     };
 
-    hideModal = () => {
+  hideModal = () => {
       this.setState({ show: false });
     };
 
-    showModalPart = () => {
+  showModalPart = () => {
         this.setState({ showPart: true });
       };
 
-      hideModalPart = () => {
-        this.setState({ showPart: false });
-      };
+  hideModalPart = () => {
+      this.setState({ showPart: false });
+    };
+
+  showModalResp = () => {
+      this.setState({ showResp: true });
+    };
+
+  hideModalResp = () => {
+      this.setState({ showResp: false });
+    };
+
+  showModalError = () => {
+      this.setState({ showError: true });
+    };
+
+  hideModalError = () => {
+      this.setState({ showError: false });
+    };
 
   handleText = i => e => {
     let answers = [...this.state.answers]
@@ -138,63 +172,38 @@ export default class NewPoll extends Component {
     })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let name= this.state.name;
-    let type =  this.state.type;
-    let start_date= this.state.start;
-    let end_date = this.state.end;
-    let questionList = this.state.questionListData;
-    let participantsList = this.state.participants;
-    let configurationUI = this.state.configuration;
-    let authorityList = this.state.authorityList;
-
-    var participants= [];
-    for(var i= 0; i < participantsList.length; i++) {
-     participants.push({
-          "name" : participantsList[i]
-      });
-    }
-
-    let data= {name, type, start_date, end_date, configurationUI, participants, authorityList, questionList }
-    console.log(data);
-
-
-  }
-
   submitQuestion = (e) => {
+      let question = this.state.question;
+      let answers = this.state.answers;
+      var answerList= [];
+      for(var i= 0; i < answers.length; i++) {
+       answerList.push({
+            "answer" : answers[i]
+        });
+      }
 
-    let question = this.state.question;
-    let answers = this.state.answers;
-    var answerList= [];
-    for(var i= 0; i < answers.length; i++) {
-     answerList.push({
-          "answer" : answers[i]
-      });
-    }
+      let jsonQuestionData = {question, answerList}
+      this.state.questionListData.push(jsonQuestionData);
+      console.log(jsonQuestionData);
 
-    let jsonQuestionData = {question, answerList}
-    this.state.questionListData.push(jsonQuestionData);
+      let answerText="";
+      for(var j= 0; j < answers.length; j++) {
+       answerText= answers[j] + ", "  + answerText;
+      }
 
+      let jsonQuestion = {question, answerText}
+      this.setState({ question:  e.target.value})
 
-    let answerText="";
-    for(var j= 0; j < answers.length; i++) {
-     answerText= answers[j] + " "  + answerText;
-    }
-
-    let jsonQuestion = {question, answerText}
-    this.setState({ question:  e.target.value})
-
-    this.state.questionList.push(jsonQuestion);
-    console.log(this.state.questionListData);
-    this.setState({ show: false });
+      this.state.questionList.push(jsonQuestion);
+      console.log(this.state.questionListData);
+      this.setState({ show: false });
   }
 
-  submitPart = () =>{
-    let part = this.state.participants;
-    console.log(part);
+    submitPart = () =>{
+      let part = this.state.participants;
+      console.log(part);
 
-    this.setState({ showPart: false });
+      this.setState({ showPart: false });
   }
 
     onSelectedRow (config, clickEvent){
@@ -227,7 +236,51 @@ export default class NewPoll extends Component {
     console.log(this.state.authorityList);
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let name= this.state.name;
+    let type =  this.state.type;
+    let start_date= this.state.start;
+    let end_date = this.state.end;
+    let questionList = this.state.questionListData;
+    let participantsList = this.state.participants;
+    let configurationUI = this.state.configuration;
+    let authorityList = this.state.authorityList;
+
+    var participants= [];
+      for(var i= 0; i < participantsList.length; i++) {
+       participants.push({
+            "name" : participantsList[i]
+        });
+    }
+
+    let data= {name, type, start_date, end_date, configurationUI, participants,
+      authorityList, questionList }
+      console.log(data);
+
+    if(name === "" || questionList.length ===  0 || authorityList.length === 0 ||
+    configurationUI.length === 0 || participants.length === 0){
+       this.setState({openSnack: true});
+    }
+    else {
+      fetch('http://localhost:8083/poll', {
+                 method: "POST",
+                 body: JSON.stringify(data),
+                 headers: {
+                   Accept: "application/json",
+                   "Content-Type": "application/json"
+                 }
+                })
+                .then(data => {
+                    if(data.status === 201){
+                      this.setState({showResp : true})
+                    }
+                }).catch(err => console.log(err));
+  }
+}
+
   fetchUpcoming(){
+
     const ENDPOINTCONFIG ='http://localhost:8085/configurationUI/client/';
     const ENDPOINTAUTH ='http://localhost:8081/authority/client/';
     const id = sessionStorage.getItem("id");
@@ -259,7 +312,20 @@ export default class NewPoll extends Component {
                 if(data){
                   this.setState(this.authority = data)
                 }
-                else console.log(data.error)
+                else {
+                  fetch('http://localhost:8083/poll', {
+                             method: 'POST',
+                             body: JSON.stringify(data),
+                             headers: {
+                               Accept: "application/json",
+                               "Content-Type": "application/json"
+                             }
+                            })
+                            .then(data => {
+                              if(data.status === 201)
+                                this.setState({showResp : true})
+                              }).catch(err => console.log(err));
+                }
         });
     }
 
@@ -268,229 +334,226 @@ export default class NewPoll extends Component {
     }
 
 render() {
-//console.log(this.configurationUI);
-//console.log(this.authority);
+  const url_dash="/";
+  const vertical = 'top';
+  const horizontal= 'center';
+
   return(
 <div className="color-background">
 <Header/>
 
-<div className="container">
-
+<div className="columns">
+  <div className="column is-2">
+      <Menu/>
+  </div>
+  <div  className="column is-9 dashboard" style={{paddingTop:"3%"}}>
   <form className="configuration-form" onSubmit={this.handleSubmit}>
       <div className="form-title"> New Poll</div>
-  <div className="row">
+      <div className="row">
 
-  <div className="column is-6 margin-top">
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <input className="input"
-          type="text"
-          name="name"
-          value={this.state.name}
-          onChange={this.changeName}
-          placeholder="Text input"/>
+        <div className="column is-6 margin-top" style={{paddingTop:"0%"}}>
+            <div className="field">
+              <label className="label">Name</label>
+              <div className="control">
+                <input className="input"
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.changeName}
+                placeholder="Text input"/>
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Start Date</label>
+              <div className="control">
+                <input className="input"
+                  type="date"
+                  defaultValue="2021-01-01"
+                  name="start"
+                  onChange={this.changeStart}
+                  placeholder="date"/>
+              </div>
+            </div>
+
+            <div className="field">
+              <div className="control">
+                <div className="table-container scroll">
+                <table className="table">
+                   <thead>
+                     <tr>
+                       <th>Icon</th>
+                       <th>Background</th>
+                       <th>Font</th>
+                       <th>Fontsize</th>
+                       <th>Fontcolor</th>
+                       <th>Maincolor</th>
+                       <th>Secondarycolor</th>
+                     </tr>
+                       </thead>
+
+                       {(this.configurationUI && this.configurationUI.length > 0) ?
+
+                        this.configurationUI.map((config, index) => {
+                          return (
+                            <tbody>
+                            <tr key={index} onClick={this.onSelectedRow.bind(this, index, config)}
+                            style= {{background: index === this.state.selected ? '#EEF6FC' : 'white',
+                              color: index === this.state.selected ? 'black' : 'black'
+                            }}>
+                              <td>{config.icon}</td>
+                              <td>{config.background}</td>
+                              <td>{config.font}</td>
+                              <td>{config.fontSize}</td>
+                              <td>{config.fontColor}</td>
+                              <td>{config.mainColor}</td>
+                              <td>{config.secondaryColor}</td>
+                            </tr>
+                            </tbody>
+                          );
+                        })
+                        :<tfoot>{this.state.msj}</tfoot>
+                       }
+                 </table>
+              </div>
+            </div>
+            </div>
+
+            <div className="field">
+              <div className="control">
+                <div className="table-container scroll">
+                <table className="table">
+                   <thead>
+                     <tr>
+                        <th>Questions</th>
+                        <AddCircleOutlineIcon className="icon-add" onClick={this.showModal} />
+                     </tr>
+                       </thead>
+
+                       {(this.state.questionList && this.state.questionList.length > 0) ?
+
+                        this.state.questionList.map((question, index) => {
+                          return (
+                          <tbody>
+                            <tr key={index}>
+                              <td>{question.question}</td>
+                                <td>{question.answerText}</td>
+                              <CancelIcon className="icon-close" onClick={this.handleDeleteQuestion(index)}  />
+                            </tr>
+                          </tbody>
+                          );
+                        })
+
+                        :<tfoot>{this.state.msj}</tfoot>
+                       }
+
+                 </table>
+                </div>
+            </div>
+            </div>
+
         </div>
-      </div>
 
+        <div className="column is-6 margin-top" style={{paddingTop:"0%"}}>
 
-
-    <div className="field">
-      <label className="label">Start Date</label>
-      <div className="control">
-        <input className="input"
-          type="date"
-          defaultValue="2021-01-01"
-          name="start"
-          onChange={this.changeStart}
-          placeholder="date"/>
-      </div>
-  </div>
-
-
-  <div className="field">
-    <label className="label">Configuration UI</label>
-    <div className="control">
-      <div className="table-container scroll">
-      <table className="table">
-         <thead>
-           <tr>
-             <th>Icon</th>
-             <th>Background</th>
-             <th>Font</th>
-             <th>Fontsize</th>
-             <th>Fontcolor</th>
-             <th>Maincolor</th>
-             <th>Secondarycolor</th>
-           </tr>
-             </thead>
-
-             {(this.configurationUI && this.configurationUI.length > 0) ?
-
-              this.configurationUI.map((config, index) => {
-                return (
-                  <tbody>
-                  <tr key={index} onClick={this.onSelectedRow.bind(this, index, config)}
-                  style= {{background: index === this.state.selected ? '#EEF6FC' : 'white',
-                    color: index === this.state.selected ? 'black' : 'black'
-                  }}>
-                    <td>{config.icon}</td>
-                    <td>{config.background}</td>
-                    <td>{config.font}</td>
-                    <td>{config.fontSize}</td>
-                    <td>{config.fontColor}</td>
-                    <td>{config.mainColor}</td>
-                    <td>{config.secondaryColor}</td>
-                  </tr>
-                  </tbody>
-                );
-              })
-              :<tfoot>{this.state.msj}</tfoot>
-             }
-       </table>
-    </div>
-  </div>
-</div>
-
-
-<div className="field">
-    <div className="control">
-      <div className="table-container scroll">
-      <table className="table">
-         <thead>
-           <tr>
-             <th> <AddCircleOutlineIcon className="icon-add" onClick={this.showModal} /> Question</th>
-             <th></th>
-           </tr>
-             </thead>
-
-             {(this.state.questionList && this.state.questionList.length > 0) ?
-
-              this.state.questionList.map((question, index) => {
-                return (
-                <tbody>
-                  <tr key={index}>
-                    <td>{question.question}</td>
-                      <td>{question.answerText}</td>
-                    <CancelIcon className="icon-close" onClick={this.handleDeleteQuestion(index)}  />
-                  </tr>
-                </tbody>
-                );
-              })
-
-              :<tfoot>{this.state.msj}</tfoot>
-             }
-
-       </table>
-      </div>
-  </div>
-</div>
-
-</div>
-
-<div className="column is-6 margin-top">
-
-  <div className="field">
-    <label className="label">Type</label>
-    <div className="control">
-      <div className="select" style= {{width: "100%"}}>
-          <select value={this.type} onChange={this.changeType} style= {{width: "100%"}}>
-          <option>Poll</option>
-          <option>Vote</option>
-        </select>
-      </div>
-    </div>
-</div>
-
-<div className="field">
-  <label className="label">End Date</label>
-  <div className="control">
-    <input className="input"
-    type="date"
-    defaultValue="2021-01-02"
-    name="end"
-    value={this.end}
-    onChange={this.changeEnd}
-    placeholder="Text input"/>
-  </div>
-</div>
-
-
-    <div className="field">
-      <label className="label">Authority</label>
-      <div className="control">
-        <div className="table-container scroll">
-        <table className="table">
-           <thead>
-             <tr>
-               <th>Name</th>
-               <th>Email</th>
-             </tr>
-               </thead>
-
-               {
-                (this.authority && this.authority.length > 0) ?
-
-                this.authority.map((auth, index) => {
-                  return (
-                     <tbody>
-                    <tr key={auth.id} onClick={this.onSelectedRowAuth.bind(this, auth)}>
-                      <td>{auth.name}</td>
-                      <td>{auth.email}</td>
-                    </tr>
-                    </tbody>
-                  );
-                })
-                :<tfoot>{this.state.msj}</tfoot>
-               }
-
-         </table>
-        </div>
-      </div>
-    </div>
-
-    <div className="field">
-        <div className="control">
-          <div className="table-container scroll">
-          <table className="table">
-             <thead>
-               <tr>
-                <th> <AddCircleOutlineIcon className="icon-add" onClick={this.showModalPart} />  Participants</th>
-               </tr>
-                 </thead>
-
-                 {(this.state.participants && this.state.participants.length > 0) ?
-
-                  this.state.participants.map((part, index) => {
-                    return (
-                      <tbody>
-                      <tr key={index}>
-                        <td>{part}</td>
-                        <CancelIcon className="icon-close" onClick={this.handleDeletePart(index)}/>
-                      </tr>
-                      </tbody>
-                    );
-                  })
-                  :<tfoot>{this.state.msj}</tfoot>
-                 }
-
-           </table>
+          <div className="field">
+            <label className="label">Type</label>
+            <div className="control">
+              <div className="select" style= {{width: "100%"}}>
+                  <select value={this.type} onChange={this.changeType} style= {{width: "100%"}}>
+                  <option>Poll</option>
+                  <option>Vote</option>
+                  </select>
+              </div>
+            </div>
           </div>
-      </div>
-    </div>
-    </div>
 
+          <div className="field">
+            <label className="label">End Date</label>
+            <div className="control">
+              <input className="input"
+              type="date"
+              defaultValue="2021-01-02"
+              name="end"
+              value={this.end}
+              onChange={this.changeEnd}
+              placeholder="Text input"/>
+            </div>
+          </div>
 
+          <div className="field">
+            <div className="control">
+              <div className="table-container scroll">
+              <table className="table">
+                 <thead>
+                   <tr>
+                     <th>Authority</th>
+                     <th>Email</th>
+                   </tr>
+                     </thead>
 
-    </div> {/* columns */}
+                     {
+                      (this.authority && this.authority.length > 0) ?
+
+                      this.authority.map((auth, index) => {
+                        return (
+                           <tbody>
+                          <tr key={auth.id} onClick={this.onSelectedRowAuth.bind(this, auth)}>
+                            <td>{auth.name}</td>
+                            <td>{auth.email}</td>
+                          </tr>
+                          </tbody>
+                        );
+                      })
+                      :<tfoot>{this.state.msj}</tfoot>
+                     }
+
+               </table>
+              </div>
+            </div>
+          </div>
+
+          <div className="field">
+              <div className="control">
+                <div className="table-container scroll">
+                <table className="table">
+                   <thead>
+                     <tr>
+                       <th>Participants</th>
+                         <AddCircleOutlineIcon className="icon-add" onClick={this.showModalPart} />
+                     </tr>
+                       </thead>
+
+                       {(this.state.participants && this.state.participants.length > 0) ?
+
+                        this.state.participants.map((part, index) => {
+                          return (
+                            <tbody>
+                            <tr key={index}>
+                              <td>{part}</td>
+                              <CancelIcon className="icon-close" onClick={this.handleDeletePart(index)}/>
+                            </tr>
+                            </tbody>
+                          );
+                        })
+                        :<tfoot>{this.state.msj}</tfoot>
+                       }
+
+                 </table>
+                </div>
+            </div>
+          </div>
+          </div>
+
+      </div> {/* columns */}
  {/* columns */}
- <div className="column is-12" style={{display:"grid"}}>
- <button  className="button azul-banner">
- Submit
- </button>
+ <div className="column is-12" style={{display:"grid", paddingTop:"0%"}}>
+   <button  className="button azul-banner">
+   Submit
+   </button>
  </div>
 </form>
-
+</div>
 <Modal
        show={this.state.show}
        onHide={this.hideModal}
@@ -569,6 +632,32 @@ render() {
               <button className="button is-success" onClick={this.submitPart} >Add</button>
             </Modal.Footer>
           </Modal>
+
+          <Modal
+             show={this.state.showResp}
+             onHide={this.hideModalResp}
+             backdrop="static"
+             keyboard={false}
+           >
+           <Modal.Header closeButton>
+           </Modal.Header>
+             <Modal.Body>
+               <div className="container">
+                <p>Your {this.state.type} was created successfully. </p>
+             </div>
+             </Modal.Body>
+             <Modal.Footer>
+                 <a href={url_dash} className="button is-success">ok</a>
+             </Modal.Footer>
+           </Modal>
+
+           <Snackbar className="tab" open={this.state.openSnack}  anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} autoHideDuration={16000} onClose={this.handleCloseSnack}>
+                 <Alert onClose={this.handleCloseSnack} severity="error">
+                   There are empty fields!
+                 </Alert>
+          </Snackbar>
+
+
 
 </div>{/* big container */}
 </div>

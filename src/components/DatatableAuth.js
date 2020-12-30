@@ -20,14 +20,15 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import Menu from './Menu.js'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -41,11 +42,12 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const id_client= sessionStorage.getItem("id");
 const api = axios.create({
   baseURL: `http://localhost:8081`
 })
 
-const client= { "idClient" : sessionStorage.getItem("id")}
+const client= { "idClient" : id_client}
 
 function validateEmail(email){
   const re = /^\S+@\S+\.\S+$/;
@@ -69,7 +71,7 @@ function DataTableAuth() {
   const [errorMessages, setErrorMessages] = useState([])
 
   useEffect(() => {
-    api.get("/authorities")
+    api.get("/authority/client/"+id_client)
         .then(res => {
             setData(res.data);
             console.log(res.data)
@@ -79,9 +81,22 @@ function DataTableAuth() {
          })
   }, [])
 
+  let handleDuplicate = (event, rowData) => {
+    console.log(rowData)
+    api.get("/authority/duplicate/"+rowData.id_auth)
+    .then(res => {
+      console.log(res.data);
+        setData(res.data)
+     })
+     .catch(error=>{
+         console.log(error);
+     })
+
+      window.location.reload(false);
+  }
+
   let handleRowUpdate  = (newData, oldData, resolve, reject) => {
     //validation
-    console.log('entra en update');
     let errorList = [];
 
     if(newData.name === ""){
@@ -116,7 +131,7 @@ function DataTableAuth() {
             setIserror(true)
             reject()
           }
-}
+  }
 
   let handleRowAdd = (newData, resolve, reject) => {
     console.log("entra en add", newData)
@@ -137,16 +152,6 @@ function DataTableAuth() {
     console.log("casi en el servicio")
 
     newData["client"]= client;
-   const model = [
-     {"name":"",
-      "email": "",
-      "password":"",
-      "status":"",
-      "client":""
-     }
-   ]
-    console.log(model);
-    console.log(newData);
 
      api.post("/authority", newData)
      .then(res => {
@@ -169,29 +174,15 @@ function DataTableAuth() {
    }
   }
 
-  const handleRowDelete = (oldData, resolve) => {
-
-    api.delete("/users/"+oldData.id)
-      .then(res => {
-        const dataDelete = [...data];
-        const index = oldData.tableData.id;
-        dataDelete.splice(index, 1);
-        setData([...dataDelete]);
-        resolve()
-      })
-      .catch(error => {
-        setErrorMessages(["Delete failed! Server error"])
-        setIserror(true)
-        resolve()
-      })
-  }
-
   return (
-    <div className="App margin-top" >
+    <div className="columns">
+      <div className="column is-2">
+          <Menu/>
+      </div>
+      <div  className="column is-9 dashboard" style={{paddingTop:"3%"}}>
 
-      <Grid container spacing={1}>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+        <Grid container spacing={1}>
+          <Grid item xs={11}>
           <div>
             {iserror &&
               <Alert severity="error">
@@ -214,17 +205,21 @@ function DataTableAuth() {
                 onRowAdd: (newData) =>
                   new Promise((resolve, reject) => {
                     handleRowAdd(newData, resolve, reject);
-                  }),
-                onRowDelete: (oldData) =>
-                  new Promise((resolve) => {
-                    handleRowDelete(oldData, resolve)
-                  }),
+                  })
               }}
+              actions={[
+                {
+                  icon: FileCopyIcon,
+                  tooltip: 'Duplicate',
+                  onClick: (event, rowData) => handleDuplicate(event, rowData)
+                }
+              ]}
 
             />
           </Grid>
-          <Grid item xs={3}></Grid>
         </Grid>
+
+      </div>
     </div>
   );
 }

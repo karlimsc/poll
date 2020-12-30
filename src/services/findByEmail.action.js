@@ -12,7 +12,6 @@ export const findByEmail= (email) =>{
     .then(data => {
       sessionStorage.setItem("name", data.name);
       sessionStorage.setItem("id", data.idClient);
-      console.log(data)
     })
     .catch(err => {
         console.log(err);

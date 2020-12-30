@@ -21,6 +21,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import Menu from './Menu.js'
 
 const tableIcons = {
   Add: () => <Link to='/configurationUI'><AddBox /></Link>,
@@ -61,13 +62,15 @@ function DataTableConfig(props) {
 
   ]
   const [data, setData] = useState([]); //table data
-
   //for error handling
   const [iserror, setIserror] = useState(false)
   const [errorMessages, setErrorMessages] = useState([])
 
+
   useEffect(() => {
-    api.get("/configurationUI/client/"+sessionStorage.getItem("id"))
+    const id_client= sessionStorage.getItem("id");
+    console.log(sessionStorage.getItem("id"))
+    api.get("/configurationUI/client/"+id_client)
         .then(res => {
             setData(res.data)
          })
@@ -75,6 +78,18 @@ function DataTableConfig(props) {
              console.log("Error")
          })
   }, [])
+
+  let handleDuplicate = (event, rowData) => {
+    console.log(rowData)
+    api.get("/configurationUI/duplicate/"+rowData.id_config)
+    .then(res => {
+      if(res.status === 200){
+      window.location.reload(false);}
+     })
+     .catch(error=>{
+         console.log(error);
+     })
+  }
 
   let handleRowUpdate = (newData, oldData, resolve, reject) => {
     //validation
@@ -143,11 +158,14 @@ function DataTableConfig(props) {
   }
 
   return (
-    <div className="App table-config" >
+    <div className="columns">
+      <div className="column is-2">
+          <Menu/>
+      </div>
+      <div  className="column is-9 dashboard" style={{paddingTop:"3%"}}>
 
       <Grid container spacing={1}>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={11}>
           <div>
             {iserror &&
               <Alert severity="error">
@@ -170,17 +188,21 @@ function DataTableConfig(props) {
                 onRowAdd: (newData) =>
                   new Promise((resolve, reject) => {
                     handleRowAdd(newData, resolve, reject);
-                  }),
-                onRowDelete: (oldData) =>
-                  new Promise((resolve) => {
-                    handleRowDelete(oldData, resolve)
-                  }),
+                  })
               }}
+              actions={[
+                {
+                  icon: FileCopyIcon,
+                  tooltip: 'Duplicate',
+                  onClick: (event, rowData) => handleDuplicate(event, rowData)
+                }
+              ]}
             />
           </Grid>
           <Grid item xs={3}></Grid>
         </Grid>
     </div>
+  </div>
   );
 }
 

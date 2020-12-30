@@ -1,14 +1,6 @@
-import React, { useContext } from "react";
-import AuthGlobal from "../context/AuthGlobal";
-import { logoutUser } from "../services/login.action.js";
+import React from "react";
 
 export default function Header() {
-    const context = useContext(AuthGlobal);
-    const cerrarSesion = () => {
-        logoutUser(context.dispatch);
-    };
-
-
     return (
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">

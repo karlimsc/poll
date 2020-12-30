@@ -1,11 +1,11 @@
 import axios from "axios";
 
 
-axios.defaults.baseURL = 'http://localhost:8081';
+axios.defaults.baseURL = 'http://localhost:8083/poll/';
 
-export const newAuthority = (url,data, onSuccess, onError) => {
+export const editPoll = (url,data, onSuccess, onError) => {
   return axios({
-      method: 'post',
+      method:'put',
       url: url,
       data: data,
       headers: {
@@ -14,11 +14,10 @@ export const newAuthority = (url,data, onSuccess, onError) => {
               try {
                   onSuccess(response)
               } catch (e) {
-                  console.error(e);
+                    onError(e);
               }
-          })
-          .catch((response) => {
-              if (response.status !== 201) {
+          }).catch((response) => {
+              if (response.status !== 200) {
               console.log("error", response.status);
               }
               onError(response)

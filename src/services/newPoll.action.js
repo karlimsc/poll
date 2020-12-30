@@ -1,9 +1,8 @@
 import axios from "axios";
 
+axios.defaults.baseURL = 'http://localhost:8083';
 
-axios.defaults.baseURL = 'http://localhost:8081';
-
-export const newAuthority = (url,data, onSuccess, onError) => {
+export const newPoll = (url,data, onSuccess, onError) => {
   return axios({
       method: 'post',
       url: url,
@@ -18,7 +17,7 @@ export const newAuthority = (url,data, onSuccess, onError) => {
               }
           })
           .catch((response) => {
-              if (response.status !== 201) {
+              if (response.status !== 200) {
               console.log("error", response.status);
               }
               onError(response)

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link }  from 'react-router-dom'
-import { Redirect } from 'react-router-dom'
 import { useHistory } from 'react-router-dom';
-
 import { forwardRef } from 'react';
 import Grid from '@material-ui/core/Grid'
 import MaterialTable from "material-table";
@@ -23,6 +21,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import Menu from './Menu.js'
 
 const tableIcons = {
   Add: () => <Link to='/poll'><AddBox /></Link>,
@@ -81,51 +80,14 @@ function DataTablePoll(props) {
   let handleRowUpdate = (newData, oldData, resolve, reject) => {
     //validation
 
-    console.log('entra en update');
-    console.log(newData.id_poll);
-    console.log(oldData);
-    let errorList = [];
-
-    if(newData.name === ""){
-      errorList.push("Please enter icon")
-    }
-    if(newData.background === ""){
-      errorList.push("Please enter background")
-    }
-    if(newData.mainColor === ""){
-      errorList.push("Please enter main color")
-    }
-    if(newData.secondaryColor === ""){
-      errorList.push("Please enter secondary color")
-    }
-    if(newData.fontColor === ""){
-      errorList.push("Please enter main color")
-    }
-    if(newData.status === ""){
-      errorList.push("Please enter status")
-    }
-
-    if(errorList.length < 1){
       api.put("/configurationUI/update/"+oldData.id_config, newData)
       .then(res => {
-        const dataUpdate = [...data];
-        const index = oldData.tableData.id;
-        dataUpdate[index] = newData;
-        setData([...dataUpdate]);
-        resolve()
-        setIserror(false)
-        setErrorMessages([])
-      })
-      .catch(error => {
-        setErrorMessages(["Update failed! Server error"])
-        setIserror(true)
-        reject()
-      })
-    }else{
-      setErrorMessages(errorList)
-      setIserror(true)
-      reject()
-    }
+        console.log(res.data);
+          setData(res.data)
+       })
+       .catch(error=>{
+           console.log("Error")
+       })
 
   }
 
@@ -150,12 +112,29 @@ let history = useHistory();
         history.push(path);
 }
 
+let handleDuplicate = (event, rowData) => {
+  console.log(rowData)
+  api.get("/poll/duplicate/"+rowData.id_poll)
+  .then(res => {
+    console.log(res.data);
+      setData(res.data)
+   })
+   .catch(error=>{
+       console.log(error);
+   })
+
+   window.location.reload(false);
+}
+
   return (
-    <div className="App table-config" >
+    <div className="columns">
+      <div className="column is-2">
+          <Menu/>
+      </div>
+      <div  className="column is-9 dashboard" style={{paddingTop:"3%"}}>
 
       <Grid container spacing={1}>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={11}>
           <div>
             {iserror &&
               <Alert severity="error">
@@ -174,11 +153,14 @@ let history = useHistory();
                 onRowAdd: (newData) =>
                   new Promise((resolve, reject) => {
                     handleRowAdd(newData, resolve, reject);
-                  }),
-                onRowDelete: (oldData) =>
-                  {alert('oldData',oldData)},
+                  })
               }}
               actions={[
+                {
+                  icon: FileCopyIcon,
+                  tooltip: 'Duplicate poll',
+                  onClick: (event, rowData) => handleDuplicate(event, rowData)
+                },
                 {
                   icon: Edit,
                   tooltip: 'Edit poll',
@@ -190,6 +172,7 @@ let history = useHistory();
           <Grid item xs={3}></Grid>
         </Grid>
     </div>
+  </div>
   );
 }
 

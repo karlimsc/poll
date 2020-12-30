@@ -200,14 +200,16 @@
   background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    padding-top: 1%;
+    padding-top: 4%;
     padding-left: 4%;
     padding-right: 4%;
+    padding-bottom: 4%;
 }
 
 .azul-banner{
   background-color: #3298dc !important;
   color: white !important;
+  width: 100%;
 }
 
 .ReactColorPicker-module_hex_value__10kKY{
@@ -215,7 +217,7 @@
 }
 
 .image-upload{
-  max-width: 185px;
+  max-width: 150px;
 }
 
 .navbar-link:not(.is-arrowless)::after{
@@ -226,3 +228,16 @@
    color: white;
   background-color: rgba(0,0,0,.03);
 }
+
+.HueSlider-module_hue_slider__3-jXT{
+  height: 16px !important;
+}
+
+.tab{
+  margin-left: 4% !important;
+  }
+
+  .MuiList-padding{
+    padding-left: 8px !important;
+    padding-right: 20px !important;
+  }

@@ -41,12 +41,12 @@ export default function Dashboard(props) {
 
               <div className= "columns">
                 <div className="column is-2">
-  <Menu/>
+                    <Menu/>
 
                 </div>
                 <div className="column is-9 dashboard">
 
-                <section className="hero is-info welcome is-small" style={{"border-radius": "6px"}}>
+                <section className="hero is-info welcome is-small" style={{"borderRadius": "6px"}}>
                   <div className="hero-body">
                       <div className="container">
                           <h1 className="title">
