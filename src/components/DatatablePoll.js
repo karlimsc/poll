@@ -5,6 +5,7 @@ import { forwardRef } from 'react';
 import Grid from '@material-ui/core/Grid'
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -30,6 +31,7 @@ const tableIcons = {
   Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
   Edit: (event, rowData) => <Link to={`/pollEdit/${rowData}`}><Edit /></Link>,
+  ToggleOnIcon:forwardRef((props, ref) => <ToggleOnIcon {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -125,6 +127,21 @@ let handleDuplicate = (event, rowData) => {
 
    window.location.reload(false);
 }
+let handleStatus = (event, rowData) => {
+
+  api.put("/poll/status/"+rowData.id_poll, rowData)
+  .then(data => {
+    if(data.status === 200){
+    window.location.reload(false);}
+   else{
+     console.log(data.error)
+     setErrorMessages(data.error)
+     setIserror(true)
+   }}).catch(error=>{
+       console.log(error);
+   })
+  window.location.reload(false);
+}
 
   return (
     <div className="columns">
@@ -156,6 +173,11 @@ let handleDuplicate = (event, rowData) => {
                   })
               }}
               actions={[
+                {
+                  icon: ToggleOnIcon,
+                  tooltip: 'Change status',
+                  onClick: (event, rowData) => handleStatus(event, rowData)
+                },
                 {
                   icon: FileCopyIcon,
                   tooltip: 'Duplicate poll',

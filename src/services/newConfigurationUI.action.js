@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-axios.defaults.baseURL = 'http://localhost:8085';
+//axios.defaults.baseURL = 'http://localhost:8085';
 
 export const newConfigurationUI = (url, data, onSuccess, onError) => {
     return axios({

@@ -5,6 +5,7 @@ import { forwardRef } from 'react';
 import Grid from '@material-ui/core/Grid'
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -25,6 +26,7 @@ import Menu from './Menu.js'
 
 const tableIcons = {
   Add: () => <Link to='/configurationUI'><AddBox /></Link>,
+  ToggleOnIcon:forwardRef((props, ref) => <ToggleOnIcon {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
@@ -91,6 +93,21 @@ function DataTableConfig(props) {
      })
   }
 
+  let handleStatus = (event, rowData) => {
+    console.log(rowData)
+    api.put("/configurationUI/status/"+rowData.id_config, rowData)
+    .then(res => {
+      if(res.status === 200){
+      window.location.reload(false);}
+     else{
+       console.log(res.error)
+       setErrorMessages(res.error)
+       setIserror(true)
+     }}).catch(error=>{
+         console.log(error);
+     })
+  }
+
   let handleRowUpdate = (newData, oldData, resolve, reject) => {
     //validation
     console.log('entra en update');
@@ -152,10 +169,6 @@ function DataTableConfig(props) {
       resolve()
     }
   }
-  const handleRowDelete = (oldData, resolve) => {
-
-    console.log("entro aqui en delete")
-  }
 
   return (
     <div className="columns">
@@ -191,6 +204,12 @@ function DataTableConfig(props) {
                   })
               }}
               actions={[
+                {
+                  icon: ToggleOnIcon,
+                  tooltip: 'Status off',
+                  onClick: (event, rowData) => handleStatus(event, rowData)
+
+                },
                 {
                   icon: FileCopyIcon,
                   tooltip: 'Duplicate',

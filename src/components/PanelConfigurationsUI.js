@@ -19,8 +19,7 @@ return(
             </header>
             <div className="card-content">
               <div className="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-              
+                Create your own user interface to customize every poll 
                 <br/>
               </div>
             </div>

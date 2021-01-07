@@ -1,5 +1,4 @@
 import React, {useEffect, useState } from "react";
-import axios from 'axios'
 import Header from './Header.js'
 import Modal from 'react-bootstrap/Modal'
 import ReactColorPicker from '@super-effective/react-color-picker';
@@ -22,9 +21,6 @@ export default function NewConfigurationUI(props) {
   const [openSnack, setOpenSnack] = useState(false);
   const [showResp, setShowResp] = useState(false);
   const client= sessionStorage.getItem("id");
-  const api = axios.create({
-    baseURL: `http://localhost:8085`
-  })
   const small = 10; const medium= 12; const large= 14;
   const formData = new FormData();
   const vertical = 'top';
@@ -102,7 +98,7 @@ export default function NewConfigurationUI(props) {
       if (icon === null) {
           setOpenSnack(true);
       } else
-      newConfigurationUI('/configurationUI',
+      newConfigurationUI('http://localhost:8085/configurationUI',
                  formData,
                  (response) => {
                      setError(response.status);

@@ -18,8 +18,7 @@ return(
             </header>
             <div className="card-content">
               <div className="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-
+                Manage multiple authorities to protect into all survey data collected across your organization
                 <br/>
               </div>
             </div>

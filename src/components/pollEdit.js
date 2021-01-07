@@ -7,7 +7,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Menu from './Menu.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import axios from "axios";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -405,7 +404,7 @@ render(){
                             style= {{background: index === this.state.selected ? '#EEF6FC' : 'white',
                               color: index === this.state.selected ? 'black' : 'black'
                             }}>
-                              <td>{config.icon}</td>
+                              <td><img className="image-upload" src={config.icon} alt="" /></td>
                               <td>{config.background}</td>
                               <td>{config.font}</td>
                               <td>{config.fontSize}</td>
