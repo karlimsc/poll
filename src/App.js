@@ -12,6 +12,7 @@ import DataTablePoll from './components/DatatablePoll.js'
 import Header from './components/Header.js'
 import Questions from './components/questions.js'
 import {PollEdit} from './components/PollEdit.js'
+import BarChart from './components/Reports.js'
 
 import './App.css';
 import 'bulma/css/bulma.css'
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/polls" component={DataTablePoll} />
                     <Route path="/header" component={Header}></Route>
                     <Route path="/questions" component={Questions}></Route>
+                    <Route path="/reports" component={BarChart}></Route>
                 </Switch>
             </BrowserRouter>
         </Auth>

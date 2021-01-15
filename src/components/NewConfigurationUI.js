@@ -101,13 +101,12 @@ export default function NewConfigurationUI(props) {
       newConfigurationUI('http://localhost:8085/configurationUI',
                  formData,
                  (response) => {
-                     setError(response.status);
-                     console.log(response.status);
+                     setData(response.status);
+                     if(data  === 201)
+                     setShowResp(true);
                  },
                  (error) => {setError(error)})
-console.log(error);
-        if(error  === 200)
-        setShowResp(true);
+
     };
 
 
@@ -233,9 +232,10 @@ console.log(error);
    </Modal.Footer>
  </Modal>
 
-<Snackbar className="tab" open={openSnack} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} autoHideDuration={16000} onClose={handleCloseSnack}>
+<Snackbar className="tab" open={openSnack} anchorOrigin={{ vertical, horizontal }}
+  key={vertical + horizontal} autoHideDuration={16000} onClose={handleCloseSnack}>
       <Alert onClose={handleCloseSnack} severity="error">
-        There are empty fields!
+        {error}
       </Alert>
 </Snackbar>
 

@@ -45,6 +45,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const id_client= sessionStorage.getItem("id");
 const api = axios.create({
   baseURL: `http://localhost:8083`
 })
@@ -69,7 +70,7 @@ function DataTablePoll(props) {
   const [errorMessages, setErrorMessages] = useState([])
 
   useEffect(() => {
-    api.get("/poll/client/v2/"+sessionStorage.getItem("id"))
+    api.get("/poll/client/v2/"+id_client)
         .then(res => {
           console.log(res.data);
             setData(res.data)
@@ -78,20 +79,6 @@ function DataTablePoll(props) {
              console.log("Error")
          })
   }, [])
-
-  let handleRowUpdate = (newData, oldData, resolve, reject) => {
-    //validation
-
-      api.put("/configurationUI/update/"+oldData.id_config, newData)
-      .then(res => {
-        console.log(res.data);
-          setData(res.data)
-       })
-       .catch(error=>{
-           console.log("Error")
-       })
-
-  }
 
   let handleRowAdd = (newData, resolve) => {
   //  props.history.push("/");

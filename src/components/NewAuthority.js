@@ -6,6 +6,7 @@ import { newAuthority } from '../services/newAuthority.action.js';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+
 export default function NewAuthority(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +14,9 @@ export default function NewAuthority(props) {
   const [openSnack, setOpenSnack] = useState(false);
   const [error, setError] = useState("");
   const [showResp, setShowResp] = useState(false);
+  const [patternEmail, setPatternEmail]= useState(false);
+  const [patternName, setPatternName]= useState(false);
+  const [message, setMessage] = useState('');
   const client= { "idClient" : sessionStorage.getItem("id")}
   const vertical = 'top';
   const horizontal= 'center';
@@ -36,24 +40,56 @@ export default function NewAuthority(props) {
     setShowResp(false);
   };
 
+  const handleChangeEmail = (e) =>{
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+
+    if(pattern.test(e.target.value)){
+      console.log('entra en handleChangeEmail')
+      setEmail(e.target.value);
+      setPatternEmail(true);
+    }
+    else {
+      setPatternEmail(false);
+    }
+  }
+
+  const handleChangeName = (e) =>{
+    var pattern = new RegExp("^[a-zA-Z ]+$");
+    console.log('entra en handleChangeName')
+    if(pattern.test(e.target.value)){
+      setName(e.target.value);
+      setPatternName(true);
+    }
+    else {setPatternName(false)}
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
       const data= {name, email, password, client}
-      if (name === "" || email === "" || password === "") {
+      if(!patternEmail){
+        setError("There are errors on Email input");
         setOpenSnack(true);
-      } else {
+      }else if(!patternName){
+          setError("There are errors on Name input");
+          setOpenSnack(true);
+        }
+        else if( patternName && patternEmail){
+
         newAuthority('/authority',data,
                    (response) => {
                        setError(response.status);
-                       console.log(response.status);
+                      if(response.status === 201){
+                      setMessage('Authority was created.');
+                      setShowResp(true);}
+                      else {
+                        setMessage('Network error. Try again a few minutes later')
+                        setShowResp(true);
+                      }
                    },
-                   (error) => {setError(error)})
-                   console.log(error);
-          if(error  === 201)
-          setShowResp(true);
-    }
+                   (error) => {setError(error); console.log(error)})
+                 }
     };
 
       return(
@@ -80,8 +116,7 @@ export default function NewAuthority(props) {
               <input className="input"
               type="text"
               name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleChangeName}
               placeholder="Text input"/>
             </div>
           </div>
@@ -92,8 +127,7 @@ export default function NewAuthority(props) {
               <input className="input"
               type="text"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChangeEmail}
               placeholder="Text input"/>
             </div>
         </div>
@@ -130,7 +164,7 @@ export default function NewAuthority(props) {
  </Modal.Header>
    <Modal.Body>
      <div className="container">
-      <p>Authority was created successfully. </p>
+      <p>{message}</p>
    </div>
    </Modal.Body>
    <Modal.Footer>
@@ -140,9 +174,10 @@ export default function NewAuthority(props) {
 
 <Snackbar className="tab" open={openSnack} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} autoHideDuration={16000} onClose={handleCloseSnack}>
       <Alert onClose={handleCloseSnack} severity="error">
-        There are empty fields!
+        {error}
       </Alert>
 </Snackbar>
+
 
   </div>
   </div>{/* big container */}

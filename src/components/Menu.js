@@ -26,6 +26,7 @@ export default function MenuDashboard() {
   const url_listAuth="/authorities";
   const url_config="/configurationUI";
   const url_listConfig="/configurationUIList";
+  const url_reports="/reports";
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorAuth, setAnchorAuth] = React.useState(null);
   const [anchorConfig, setAnchorConfig] = React.useState(null);
@@ -146,10 +147,10 @@ export default function MenuDashboard() {
 
       <ul>
         <li>
-        <div className="navbar-link">
+            <a href={url_reports}>
             <BarChartIcon style={{marginRight :"10px"}}/>
                Reports
-        </div>
+             </a>
       </li>
       </ul>
       <ul>

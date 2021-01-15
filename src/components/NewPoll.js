@@ -54,8 +54,13 @@ export default class NewPoll extends Component {
   };
 
   changeName = (e) =>{
-       this.setState({name: e.target.value});
-     }
+    var pattern = new RegExp("^[a-zA-Z ]+$");
+    if(!pattern.test(e.target.value))
+    this.setState({error:"There are errors on Name input"});
+    else {
+      this.setState({name: e.target.value});
+    }
+  }
 
   changeStart  = (e) =>{
    let date= e.target.value;
@@ -199,7 +204,7 @@ export default class NewPoll extends Component {
       this.setState({ show: false });
   }
 
-    submitPart = () =>{
+  submitPart = () =>{
       let part = this.state.participants;
       console.log(part);
 
@@ -258,8 +263,14 @@ export default class NewPoll extends Component {
       authorityList, questionList }
       console.log(data);
 
-    if(name === "" || questionList.length ===  0 || authorityList.length === 0 ||
+    if(name === "" ){
+      this.setState({error:"There are errors on Name input"});
+       this.setState({openSnack: true});
+    }
+    else if( questionList.length ===  0 || authorityList.length === 0 ||
     configurationUI.length === 0 || participants.length === 0){
+    
+      this.setState({error:"There are empty fields."});
        this.setState({openSnack: true});
     }
     else {
@@ -653,7 +664,7 @@ render() {
 
            <Snackbar className="tab" open={this.state.openSnack}  anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} autoHideDuration={16000} onClose={this.handleCloseSnack}>
                  <Alert onClose={this.handleCloseSnack} severity="error">
-                   There are empty fields!
+                   {this.state.error}
                  </Alert>
           </Snackbar>
 
