@@ -29,16 +29,12 @@ export default function BarChart () {
   }, [])
 
 const handleResults = (response) => {
-  console.log(response);
 let answers = response.answers;
-let votes= [];
+let votes= response.result;
 let answer = [];
   for(var i= 0; i < answers.length; i++) {
-    votes.push(answers[i].id_answ);
     answer.push(answers[i].answer);
   }
-  console.log(votes);
-  console.log(answer);
   setResult(votes);
   setAnswer(answer);
 }
@@ -61,6 +57,7 @@ const onPollChange = (e) => {
   return (
     <div className="color-background">
       <Header/>
+{console.log(answer)}
       <div className="columns">
         <div className="column is-2">
             <Menu/>

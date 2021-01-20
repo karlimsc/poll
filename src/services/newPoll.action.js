@@ -17,9 +17,7 @@ export const newPoll = (url,data, onSuccess, onError) => {
               }
           })
           .catch((response) => {
-              if (response.status !== 200) {
-              console.log("error", response.status);
-              }
+              console.log("error", response);
               onError(response)
           });
 }
