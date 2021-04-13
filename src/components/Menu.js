@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import HomeIcon from '@material-ui/icons/Home';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
@@ -62,7 +63,15 @@ export default function MenuDashboard() {
       <aside className="column is-12 is-narrow-mobile is-fullheight section is-hidden-mobile">
         <p className="menu-label is-hidden-touch">Navigation</p>
         <ul className="menu-list">
-          <li>
+          {(sessionStorage.getItem("email") === 'admin@gmail.com') &&
+            <li>
+              <div className="navbar-link"  onClick={handleClickAuth}>
+                  <AccountCircleIcon style={{marginRight :"10px"}}/>
+                    Admin
+              </div>
+            </li>
+          }
+            <li>
             <a href={url_dash} className="is-active-menu">
               <HomeIcon style={{marginRight :"10px"}}/> Dashboard
             </a>

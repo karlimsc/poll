@@ -64,7 +64,7 @@ const onPollChange = (e) => {
         </div>
         <div  className="column is-9 dashboard" style={{paddingTop:"3%"}}>
 
-          <form className="configuration-form" onSubmit="">
+          <form className="configuration-form">
               <div className="form-title"> Reports</div>
           <div className="columns margin-top">
           <div className="column is-2 margin-top">
@@ -82,7 +82,7 @@ const onPollChange = (e) => {
                             <option key={index} value={poll.id_poll}>{poll.name}</option>
                            );
                          })
-                         :<spam>"Ha ocurrido un error"</spam>
+                         :<option>"Ha ocurrido un error"</option>
                         }
                       </select>
                     </div>

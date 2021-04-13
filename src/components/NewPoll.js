@@ -269,7 +269,7 @@ export default class NewPoll extends Component {
     }
     else if( questionList.length ===  0 || authorityList.length === 0 ||
     configurationUI.length === 0 || participants.length === 0){
-    
+
       this.setState({error:"There are empty fields."});
        this.setState({openSnack: true});
     }
@@ -423,7 +423,9 @@ render() {
                             </tbody>
                           );
                         })
-                        :<tfoot>{this.state.msj}</tfoot>
+                        :<tbody>
+                          <tr><td>{this.state.msj}</td></tr>
+                        </tbody>
                        }
                  </table>
               </div>
@@ -455,7 +457,9 @@ render() {
                           );
                         })
 
-                        :<tfoot>{this.state.msj}</tfoot>
+                        :<tbody>
+                          <tr><td>{this.state.msj}</td></tr>
+                        </tbody>
                        }
 
                  </table>
@@ -516,7 +520,9 @@ render() {
                           </tbody>
                         );
                       })
-                      :<tfoot>{this.state.msj}</tfoot>
+                      :<tbody>
+                        <tr><td>{this.state.msj}</td></tr>
+                      </tbody>
                      }
 
                </table>
@@ -547,7 +553,9 @@ render() {
                             </tbody>
                           );
                         })
-                        :<tfoot>{this.state.msj}</tfoot>
+                        :<tbody>
+                          <tr><td>{this.state.msj}</td></tr>
+                        </tbody>
                        }
 
                  </table>

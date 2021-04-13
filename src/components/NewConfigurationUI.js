@@ -101,6 +101,7 @@ export default function NewConfigurationUI(props) {
       newConfigurationUI('http://localhost:8085/configurationUI',
                  formData,
                  (response) => {
+                   console.log(response);
                      setData(response.status);
                      if(data  === 201)
                      setShowResp(true);

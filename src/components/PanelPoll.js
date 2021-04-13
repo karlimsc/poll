@@ -53,7 +53,7 @@ this.setState({ requestFailed: true })})
             Polls
             </p>
           </header>
-                   <href className="panel-block bc">
+                   <div className="panel-block bc">
                      <span className="panel-icon">
                        <i className="fas fa-book" aria-hidden="true"></i>
                      </span>
@@ -67,7 +67,7 @@ this.setState({ requestFailed: true })})
                      ):<small>Ha ocurrido un error.</small>
                    }
                    </ul>
-                   </href>
+                 </div>
 
                          <footer className="card-footer">
                           <a href={url_poll} className="card-footer-item">Add</a>

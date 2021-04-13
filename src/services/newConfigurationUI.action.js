@@ -1,14 +1,11 @@
 import axios from "axios";
 
-
-//axios.defaults.baseURL = 'http://localhost:8085';
-
 export const newConfigurationUI = (url, data, onSuccess, onError) => {
     return axios({
         method: 'post',
         url: url,
         headers: {
-            'content-type': `multipart/form-data; boundary=${data._boundary}`},
+            'content-type': `multipart/form-data; boundary=${data}`},
         data: data})
             .then((response) => {
                 try {
@@ -19,9 +16,7 @@ export const newConfigurationUI = (url, data, onSuccess, onError) => {
 
             })
             .catch((response) => {
-                if (response.status !== 200) {
                 console.log("error", response.status);
-                }
                 onError(response)
             });
 };
