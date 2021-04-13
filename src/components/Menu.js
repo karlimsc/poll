@@ -63,105 +63,107 @@ export default function MenuDashboard() {
       <aside className="column is-12 is-narrow-mobile is-fullheight section is-hidden-mobile">
         <p className="menu-label is-hidden-touch">Navigation</p>
         <ul className="menu-list">
-          {(sessionStorage.getItem("email") === 'admin@gmail.com') &&
+          {sessionStorage.getItem("email") === 'admin@gmail.com' ? (
             <li>
               <div className="navbar-link"  onClick={handleClickAuth}>
                   <AccountCircleIcon style={{marginRight :"10px"}}/>
                     Admin
               </div>
+            </li>) : ( <>
+              <li>
+              <a href={url_dash} className="is-active-menu">
+                <HomeIcon style={{marginRight :"10px"}}/> Dashboard
+              </a>
             </li>
-          }
             <li>
-            <a href={url_dash} className="is-active-menu">
-              <HomeIcon style={{marginRight :"10px"}}/> Dashboard
-            </a>
+            <div className="navbar-link"  onClick={handleClickAuth}>
+                <SupervisedUserCircleIcon style={{marginRight :"10px"}}/>
+                  Authority
+            </div>
           </li>
+        <Menu
+          id="menu-authority"
+          anchorEl={anchorAuth}
+          keepMounted
+          open={Boolean(anchorAuth)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleCloseAuth}>
+            <a href={url_auth}>   <span className="icon is-small"><i className="fa fa-link"></i></span>  Add </a>
+        </MenuItem>
+          <MenuItem onClick={handleCloseAuth}>
+            <a href={url_listAuth}>
+            <span className="icon is-small"><i className="fa fa-link"></i></span> List
+          </a>
+          </MenuItem>
+
+        </Menu>
+        <ul>
           <li>
-          <div className="navbar-link"  onClick={handleClickAuth}>
-              <SupervisedUserCircleIcon style={{marginRight :"10px"}}/>
-                Authority
+          <div className="navbar-link"  onClick={handleClickConfig}>
+              <SettingsBrightnessIcon style={{marginRight :"10px"}}/>
+                Configuration UI
           </div>
         </li>
-      <Menu
-        id="menu-authority"
-        anchorEl={anchorAuth}
-        keepMounted
-        open={Boolean(anchorAuth)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleCloseAuth}>
-          <a href={url_auth}>   <span className="icon is-small"><i className="fa fa-link"></i></span>  Add </a>
-      </MenuItem>
-        <MenuItem onClick={handleCloseAuth}>
-          <a href={url_listAuth}>
-          <span className="icon is-small"><i className="fa fa-link"></i></span> List
-        </a>
+        <Menu
+          id="menu-configuration"
+          anchorEl={anchorConfig}
+          keepMounted
+          open={Boolean(anchorConfig)}
+          onClose={handleCloseConfig}
+        >
+          <MenuItem onClick={handleCloseConfig}>
+            <a href={url_config}>
+            <span className="icon is-small"><i className="fa fa-link"></i></span> Add
+          </a>
         </MenuItem>
+          <MenuItem onClick={handleCloseConfig}>
+            <a href={url_listConfig}>
+            <span className="icon is-small"><i className="fa fa-link"></i></span> List
+          </a>
+          </MenuItem>
 
-      </Menu>
-      <ul>
-        <li>
-        <div className="navbar-link"  onClick={handleClickConfig}>
-            <SettingsBrightnessIcon style={{marginRight :"10px"}}/>
-              Configuration UI
-        </div>
-      </li>
-      <Menu
-        id="menu-configuration"
-        anchorEl={anchorConfig}
-        keepMounted
-        open={Boolean(anchorConfig)}
-        onClose={handleCloseConfig}
-      >
-        <MenuItem onClick={handleCloseConfig}>
-          <a href={url_config}>
-          <span className="icon is-small"><i className="fa fa-link"></i></span> Add
-        </a>
-      </MenuItem>
-        <MenuItem onClick={handleCloseConfig}>
-          <a href={url_listConfig}>
-          <span className="icon is-small"><i className="fa fa-link"></i></span> List
-        </a>
+        </Menu>
+        </ul>
+        <ul>
+          <li>
+          <div className="navbar-link"  onClick={handleClick}>
+              <HowToVoteIcon style={{marginRight :"10px"}}/>
+                 Poll
+          </div>
+        </li>
+        <Menu
+          id="menu-poll"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>
+            <a href={url_poll}>
+            <span className="icon is-small"><i className="fa fa-link"></i></span> Add
+          </a>
         </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <a href={url_listPoll}>
+            <span className="icon is-small"><i className="fa fa-link"></i></span> List
+          </a>
+          </MenuItem>
 
-      </Menu>
-      </ul>
-      <ul>
-        <li>
-        <div className="navbar-link"  onClick={handleClick}>
-            <HowToVoteIcon style={{marginRight :"10px"}}/>
-               Poll
-        </div>
-      </li>
-      <Menu
-        id="menu-poll"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>
-          <a href={url_poll}>
-          <span className="icon is-small"><i className="fa fa-link"></i></span> Add
-        </a>
-      </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <a href={url_listPoll}>
-          <span className="icon is-small"><i className="fa fa-link"></i></span> List
-        </a>
-        </MenuItem>
+        </Menu>
+        </ul>
 
-      </Menu>
-      </ul>
+        <ul>
+          <li>
+              <a href={url_reports}>
+              <BarChartIcon style={{marginRight :"10px"}}/>
+                 Reports
+               </a>
+        </li>
+        </ul>
+            </>)
+          }
 
-      <ul>
-        <li>
-            <a href={url_reports}>
-            <BarChartIcon style={{marginRight :"10px"}}/>
-               Reports
-             </a>
-      </li>
-      </ul>
       <ul>
         <li>
             <div className="navbar-link" onClick={cerrarSesion}>
