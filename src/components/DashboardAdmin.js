@@ -1,7 +1,7 @@
 import React from "react";
 import Header from './Header.js'
 import Menu from './Menu.js'
-import PanelAdmin from './PanelAdmin.js'
+import DatatableAdmin from './DatatableAdmin.js'
 
 export default function DashboardAdmin() {
     return (
@@ -60,7 +60,7 @@ export default function DashboardAdmin() {
 </section>
 <div className= "columns">
   <div className="column is-12">
-    <PanelAdmin/>
+    <DatatableAdmin/>
   </div>
 </div>
 

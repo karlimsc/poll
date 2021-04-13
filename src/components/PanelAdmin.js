@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { Redirect } from 'react-router-dom'
+import DatatableAdmin from './DatatableAdmin.js'
 
 
  export default class PanelPoll extends Component {
@@ -53,12 +54,7 @@ import { Redirect } from 'react-router-dom'
             </p>
           </header>
                    <div className="panel-block bc">
-                     <span className="panel-icon">
-                       <i className="fas fa-book" aria-hidden="true"></i>
-                     </span>
-                     <ul>
-
-                   </ul>
+                      <DatatableAdmin/>
                  </div>
 
                          <footer className="card-footer">
