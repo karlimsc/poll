@@ -26,7 +26,7 @@ const tableIcons = {
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
+  //Delete: forwardRef((props, ref) => <FileCopyIcon {...props} ref={ref} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
@@ -43,10 +43,10 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://localhost:8081`
+  baseURL: `http://localhost:8084`
 })
 
-const client= { "idClient" : id_client}
+const jwt =sessionStorage.getItem("jwt");
 
 function validateEmail(email){
   const re = /^\S+@\S+\.\S+$/;
@@ -61,6 +61,8 @@ function DataTableAdmin() {
     {title: "Name", field: "name"},
     {title: "Email", field: "email"},
     {title: "Code", field: "password"},
+    {title: "Rif", field: "rif"},
+    {title: "Address", field: "address"},
     {title: "Status", field: "status"}
   ]
   const [data, setData] = useState([]); //table data
@@ -70,8 +72,14 @@ function DataTableAdmin() {
   const [errorMessages, setErrorMessages] = useState([])
 
   useEffect(() => {
-    api.get("/authority/client/"+id_client)
-        .then(res => {
+    console.log(window.sessionStorage.getItem('jwt'));
+        let config = {
+         headers: {
+           'Authorization': 'Bearer ' + jwt
+       }
+     }
+    axios.get('http://localhost:8084/clients',
+      config).then(res => {
             setData(res.data);
             console.log(res.data)
          })
@@ -79,20 +87,6 @@ function DataTableAdmin() {
              console.log("Error")
          })
   }, [])
-
-  let handleDuplicate = (event, rowData) => {
-    console.log(rowData)
-    api.get("/authority/duplicate/"+rowData.id_auth)
-    .then(res => {
-      console.log(res.data);
-        setData(res.data)
-     })
-     .catch(error=>{
-         console.log(error);
-     })
-
-      window.location.reload(false);
-  }
 
   let handleRowUpdate  = (newData, oldData, resolve, reject) => {
     //validation
@@ -110,7 +104,13 @@ function DataTableAdmin() {
 
     if(errorList.length < 1){
 
-            api.put("/authority/update/"+oldData.id_auth, newData)
+      let config = {
+       headers: {
+         'Authorization': 'Bearer ' + jwt
+         }
+       }
+            axios.put("http://localhost:8084/client/update/"+id_client, newData ,
+              config)
             .then(res => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
@@ -144,15 +144,17 @@ function DataTableAdmin() {
     if(newData.password === undefined){
         errorList.push("Please enter code")
     }
+    if(newData.rif === undefined){
+        errorList.push("Please enter rif")
+    }
+    if(newData.status === undefined){
+        errorList.push("Please enter status")
+    }
     if(newData.email === undefined || validateEmail(newData.email) === false){
       errorList.push("Please enter a valid email")
     }
     if(errorList.length < 1){
-    console.log("casi en el servicio")
-
-    newData["client"]= client;
-
-     api.post("/authority", newData)
+     api.post("/client", newData)
      .then(res => {
        let dataToAdd = [...data];
        dataToAdd.push(newData);
@@ -174,11 +176,9 @@ function DataTableAdmin() {
   }
 
   return (
-    <div className="columns is-12">
       <div  className="column is-12" style={{paddingTop:"3%"}}>
-
         <Grid container spacing={1}>
-          <Grid item xs={11}>
+          <Grid item xs={12}>
           <div>
             {iserror &&
               <Alert severity="error">
@@ -203,20 +203,12 @@ function DataTableAdmin() {
                     handleRowAdd(newData, resolve, reject);
                   })
               }}
-              actions={[
-                {
-                  icon: FileCopyIcon,
-                  tooltip: 'Duplicate',
-                  onClick: (event, rowData) => handleDuplicate(event, rowData)
-                }
-              ]}
 
             />
           </Grid>
         </Grid>
 
       </div>
-    </div>
   );
 }
 
