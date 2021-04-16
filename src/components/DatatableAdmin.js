@@ -17,7 +17,6 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
 
@@ -176,7 +175,7 @@ function DataTableAdmin() {
   }
 
   return (
-      <div  className="column is-12" style={{paddingTop:"3%"}}>
+      <div style={{paddingTop:"3%"}}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
           <div>

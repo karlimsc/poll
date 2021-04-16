@@ -14,6 +14,7 @@ const Auth = props => {
     useEffect(() => {
         if (sessionStorage.jwt) {
             const decoded = sessionStorage.jwt ? sessionStorage.jwt : "";
+            console.log(sessionStorage.jwt);
             dispatch(setCurrentUser(jwt_decode(decoded)));
         }
         setShowChild(true);

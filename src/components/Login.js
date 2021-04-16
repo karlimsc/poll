@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'
 
 
 export default function Login(props) {
@@ -18,6 +19,7 @@ export default function Login(props) {
     const [password, setPassword] = useState("");
     const [error, seterror] = useState("");
     const [showChild, setShowChild] = useState(false);
+    const url_fp="/ForgotPassword";
 
     useEffect(() => {
         if (context.stateUser.isAuthenticated === true) {
@@ -40,7 +42,6 @@ export default function Login(props) {
 
         e.preventDefault();
     };
-
 
     if (!showChild) {
            return null;
@@ -82,7 +83,6 @@ export default function Login(props) {
                         />
                           <Button
                           fullWidth
-                          color="#3298dc"
                           className="submit-button"
                           type="submit"
                         >
@@ -90,9 +90,9 @@ export default function Login(props) {
                         </Button>
                         <Grid container>
                            <Grid item xs>
-                             <Link href="#" variant="body2">
-                               Forgot password?
-                             </Link>
+                             <Link href={url_fp} variant="body2">
+                                  Forgot password?
+                                </Link>
                            </Grid>
                          </Grid>
                            {error ? <Error mensaje={error} /> : null}

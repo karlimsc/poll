@@ -1,7 +1,7 @@
 import {SET_CURRENT_USER} from '../services/login.action.js'
 import isEmpty from '../components/ValidationEmpty.js'
 
-export default function(state , action ){
+export default function reducer(state , action ){
     switch(action.type) {
         case SET_CURRENT_USER:
             return {
