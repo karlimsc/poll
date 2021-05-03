@@ -7,6 +7,7 @@ import DashboardAdmin from './DashboardAdmin.js'
 export default function Dashboard(props) {
     const context = useContext(AuthGlobal);
     const [showChild, setShowChild] = useState(false);
+    const [email , setEmail]= useState("")
 
     useEffect(() => {
         if (
@@ -17,19 +18,15 @@ export default function Dashboard(props) {
         }
         setShowChild(true);
 
-        const jwt =sessionStorage.getItem("jwt");
-        const email = sessionStorage.getItem("email");
+        setEmail(sessionStorage.getItem("email"));
+        findByEmail(sessionStorage.getItem("email"));
 
-        if (jwt) {
-          findByEmail(email);
-          console.log(sessionStorage.getItem("name"))
-      }
-    }, [context.stateUser.isAuthenticated, props.history]);
+    }, [context.stateUser.isAuthenticated, props.history, email]);
 
     if (!showChild) {
         return null;
     } else {
-      if(sessionStorage.getItem("email") === 'admin@gmail.com'){
+      if(email === 'admin@gmail.com'){
         return (
             <DashboardAdmin/>
         );}

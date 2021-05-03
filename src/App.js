@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Dashboard from './components/Dashboard.js';
 import Login from './components/Login.js';
 import ForgotPassword from './components/ForgotPassword.js';
+import RecoverPassword from './components/RecoverPassword.js'
 import Auth from './context/Auth.js';
 import NewPoll from './components/NewPoll.js';
 import NewConfigurationUI from './components/NewConfigurationUI.js'
@@ -27,6 +28,7 @@ function App() {
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route path="/ForgotPassword" component={ForgotPassword} />
+                    <Route path="/RecoverPassword" component={RecoverPassword} />
                     <Route exact path="/" component={Dashboard}/>
                     <Route path="/poll" component={NewPoll} />
                     <Route path="/pollEdit/:id" component={PollEdit} />

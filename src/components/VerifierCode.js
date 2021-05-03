@@ -1,6 +1,5 @@
-import React, { useState , useEffect } from "react";
-import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import React, { useState } from "react";
+//import axios from 'axios'
 import Error from '../components/Error.js';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Button from '@material-ui/core/Button';
@@ -8,28 +7,29 @@ import TextField from '@material-ui/core/TextField';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import VerifierCode from './VerifierCode.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 
-export default function ForgotPassword(props) {
-    const [email, setEmail] = useState("");
+export default function VerifierCode(props) {
+  console.log(props);
+    const [code, setCode] = useState("");
     const [error, setError] = useState("");
-    const [data, setData] = useState("");
-    const [verifier, setVerifier] = useState(false);
-    const [code , setCode] = useState("");
-    const [message, setMessage] = useState('');
     const [openSnack, setOpenSnack] = useState(false);
     const vertical = 'top';
     const horizontal= 'center';
+    //const [data, setData] = useState("");
 
-    useEffect( ()=>{
-      if(data !== ""){
-        setVerifier(true);
-    }
-  },[data]);
-
+    const handleSubmit = (e) => {
+      //e.preventDefault();
+      if(code === "5a22e5")
+      props.verifier = code;
+      else {
+        setError("This code does not match. Please check your email again");
+        setOpenSnack(true);
+      }
+      console.log('entro aqui verifier code');
+    };
 
     function Alert(props) {
       return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -42,38 +42,6 @@ export default function ForgotPassword(props) {
       setOpenSnack(false);
     };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      axios.get('http://localhost:8084/client/forgotPassword/?email='+email).then(res => {
-
-          const token = res.data.token;
-          sessionStorage.setItem("jwt2", token);
-          setData(res.data);
-        })
-        .catch(error=>{
-             if(error.response.status === 401){
-               setError('This email is not in our records');
-               setOpenSnack(true);
-             }
-             else{
-               setError('Network error. Try again a few minutes later');
-               setOpenSnack(true);
-             }
-           })
-    };
-
-    const handleChangeCode = event => setCode(event.target.value);
-    //const handleChangePassword = event => setCode(event.target.value);
-
-          if(verifier){
-          return(
-          <VerifierCode verifier={code} onChangeVerifier={handleChangeCode}/>);
-          }
-          if(props.location["search"] === "?code=5a22e5")
-            return(
-            <Redirect to="/RecoverPassword" />
-            )
-          else
            return (
              <Container component="main" maxWidth="xs">
                 <div className="paper">
@@ -81,19 +49,20 @@ export default function ForgotPassword(props) {
                  <VpnKeyIcon />
                </Avatar>
                  <Typography component="h1" variant="h5">
-                      Forgot Password
+                      Verifier Code
                     </Typography>
+
                      <form className="form-login" onSubmit={handleSubmit}>
                        <TextField
                           variant="outlined"
                           margin="normal"
                           required
                           fullWidth
-                          id="email"
-                          label="Email Address"
-                          name="email"
-                          autoComplete="email"
-                          onChange={(e) => setEmail(e.target.value)}
+                          id="code"
+                          label="Code"
+                          name="code"
+                          autoComplete="code"
+                          onChange={(e) => setCode(e.target.value)}
                           autoFocus
                         />
                           <Button
@@ -101,9 +70,12 @@ export default function ForgotPassword(props) {
                           className="submit-button"
                           type="submit"
                         >
-                          Send Password
+                          Send Code
                         </Button>
 
+                        <Typography component="h1" variant="h6">
+                             Please, check your email.
+                        </Typography>
                     </form>
                 </div>
                 <Snackbar className="tab" open={openSnack} anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} autoHideDuration={16000} onClose={handleCloseSnack}>
@@ -113,6 +85,4 @@ export default function ForgotPassword(props) {
                 </Snackbar>
                 </Container>
          );
-
-
      }

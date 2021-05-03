@@ -16,9 +16,12 @@ if(user != null){
     .then(res => res.json())
     .then(data => {
       if (data) {
-        const token = data.token;
+        console.log(data);
+        const token = data.address;
+        console.log(token);
         sessionStorage.setItem("jwt", token);
         sessionStorage.setItem("email",user.email);
+        sessionStorage.setItem("name",data.name);
         const decoded = jwt_decode(token);
         seterror("")
         dispatch(setCurrentUser(decoded));
@@ -42,8 +45,11 @@ export const setCurrentUser = decoded => {//si se loguea , setear datos del usua
 };
 
 export const logoutUser = (dispatch) => {//logout
+  sessionStorage.removeItem("jwt2");
   sessionStorage.removeItem("jwt");
   sessionStorage.removeItem("email");
+  sessionStorage.removeItem("name");
+
   console.log(localStorage.getItem("jwt"));
   dispatch(setCurrentUser({}));
 };
