@@ -7,7 +7,7 @@ import { getResultsByIdPoll } from '../services/getResultsByIdPoll.action.js';
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://localhost:8083`
+  baseURL: `http://155.138.233.164:8083`
 })
 
 

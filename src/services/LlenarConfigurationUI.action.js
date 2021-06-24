@@ -1,5 +1,5 @@
 
-const ENDPOINT ='http://localhost:8085/configurationUI/client/';
+const ENDPOINT ='http://155.138.233.164:8085/configurationUI/client/';
   const id = sessionStorage.getItem("id");
 
 export default function LlenarConfigurationUI (props){

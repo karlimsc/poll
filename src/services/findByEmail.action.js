@@ -2,7 +2,7 @@ export const findByEmail= (email) =>{
 
   const jwt =sessionStorage.getItem("jwt");
   if(email != null){
-  fetch(`http://localhost:8084/client/findByEmail/?email=${email}`, {
+  fetch(`http://155.138.233.164:8084/client/findByEmail/?email=${email}`, {
             method: "GET",
             headers: {
                 'Access-Control-Allow-Origin': '*',

@@ -62,7 +62,7 @@ export default function RecoverPassword(props) {
       const dataJson = {name, password};
 
       if(password === password2){
-        axios.put('http://localhost:8084/client/update/'+sessionStorage.getItem("id"),
+        axios.put('http://155.138.233.164:8084/client/update/'+sessionStorage.getItem("id"),
          dataJson, config)
         .then(res => {
                 setData(res.data);

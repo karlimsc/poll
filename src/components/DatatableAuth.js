@@ -44,7 +44,7 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://localhost:8081`
+  baseURL: `http://155.138.233.164:8081`
 })
 
 const client= { "idClient" : id_client}

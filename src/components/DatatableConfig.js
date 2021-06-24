@@ -46,7 +46,7 @@ const tableIcons = {
 };
 
 const api = axios.create({
-  baseURL: `http://localhost:8085`
+  baseURL: `http://155.138.233.164:8085`
 })
 
 function DataTableConfig(props) {

@@ -21,7 +21,7 @@ import { Redirect } from 'react-router-dom'
     const id = sessionStorage.getItem("id");
     console.log(sessionStorage.getItem("id"))
     if(id){
-     fetch(`http://localhost:8083/poll/client/${id}`, {
+     fetch(`http://155.138.233.164:8083/poll/client/${id}`, {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -64,7 +64,7 @@ this.setState({ requestFailed: true })})
                        <li key={index}>
                          <href>{bpi.name}</href>
                        </li>
-                     ):<small>Ha ocurrido un error.</small>
+                     ):<small>You don't have any votation active.</small>
                    }
                    </ul>
                  </div>

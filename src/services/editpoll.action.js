@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-axios.defaults.baseURL = 'http://localhost:8083/poll/';
+axios.defaults.baseURL = 'http://155.138.233.164:8083/poll/';
 
 export const editPoll = (url,data, onSuccess, onError) => {
   return axios({

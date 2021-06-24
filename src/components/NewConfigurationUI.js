@@ -98,7 +98,7 @@ export default function NewConfigurationUI(props) {
       if (icon === null) {
           setOpenSnack(true);
       } else
-      newConfigurationUI('http://localhost:8085/configurationUI',
+      newConfigurationUI('http://155.138.233.164:8085/configurationUI',
                  formData,
                  (response) => {
                    console.log(response);

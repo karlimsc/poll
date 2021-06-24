@@ -37,6 +37,7 @@ export default function Login(props) {
             seterror("Ingrese datos correctamente");
         } else {
             loginUser(user, context.dispatch, seterror);
+            console.log(seterror);
         }
 
         e.preventDefault();

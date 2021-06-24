@@ -274,7 +274,7 @@ export default class NewPoll extends Component {
        this.setState({openSnack: true});
     }
     else {
-      fetch('http://localhost:8083/poll', {
+      fetch('http://155.138.233.164:8083/poll', {
                  method: "POST",
                  body: JSON.stringify(data),
                  headers: {
@@ -292,8 +292,8 @@ export default class NewPoll extends Component {
 
   fetchUpcoming(){
 
-    const ENDPOINTCONFIG ='http://localhost:8085/configurationUI/client/';
-    const ENDPOINTAUTH ='http://localhost:8081/authority/client/';
+    const ENDPOINTCONFIG ='http://155.138.233.164:8085/configurationUI/client/';
+    const ENDPOINTAUTH ='http://155.138.233.164:8081/authority/client/';
     const id = sessionStorage.getItem("id");
 
     fetch(`${ENDPOINTCONFIG}${id}`, {
@@ -324,7 +324,7 @@ export default class NewPoll extends Component {
                   this.setState(this.authority = data)
                 }
                 else {
-                  fetch('http://localhost:8083/poll', {
+                  fetch('http://155.138.233.164:8083/poll', {
                              method: 'POST',
                              body: JSON.stringify(data),
                              headers: {

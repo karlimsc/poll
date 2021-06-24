@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
-const ENDPOINT ='http://localhost:8084/client/login';
+const ENDPOINT ='http://155.138.233.164:8084/client/login';
 
 export const loginUser = (user,dispatch,seterror) =>{ //login
 if(user != null){
@@ -15,9 +15,9 @@ if(user != null){
   })
     .then(res => res.json())
     .then(data => {
-      if (data) {
+      if (data.address !== null) {
         console.log(data);
-        const token = data.address;
+        let token = data.address;
         console.log(token);
         sessionStorage.setItem("jwt", token);
         sessionStorage.setItem("email",user.email);
@@ -26,7 +26,7 @@ if(user != null){
         seterror("")
         dispatch(setCurrentUser(decoded));
       } else {
-        seterror(data.err.message)
+        seterror("Bad Credentials")
         logoutUser(dispatch);
       }
     })

@@ -44,7 +44,7 @@ export default function ForgotPassword(props) {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      axios.get('http://localhost:8084/client/forgotPassword/?email='+email).then(res => {
+      axios.get('http://155.138.233.164:8084/client/forgotPassword/?email='+email).then(res => {
 
           const token = res.data.token;
           sessionStorage.setItem("jwt2", token);

@@ -12,7 +12,7 @@ export default class ListAllAuthorities extends Component{
   state = { auth: [] }
 
   fetchUpcoming(){
-    const ENDPOINTAUTH ='http://localhost:8081/authorities';
+    const ENDPOINTAUTH ='http://155.138.233.164:8081/authorities';
 
     fetch(`${ENDPOINTAUTH}`, {
       method: "GET",

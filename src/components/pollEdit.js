@@ -252,7 +252,7 @@ _handleSubmit = (e) => {
     else {
 
       console.log(JSON.stringify(data));
-      const ENDPOINTUPDATEPOLL= 'http://localhost:8083/poll/update/';
+      const ENDPOINTUPDATEPOLL= 'http://155.138.233.164:8083/poll/update/';
       const id= this.props.match.params.id
       const options = {
         method: 'put',
@@ -296,8 +296,8 @@ fetchFindPoll(id) {
 }
 
 fetchUpcoming(){
-  const ENDPOINTCONFIG ='http://localhost:8085/configurationUI/client/';
-  const ENDPOINTAUTH ='http://localhost:8081/authority/client/';
+  const ENDPOINTCONFIG ='http://155.138.233.164:8085/configurationUI/client/';
+  const ENDPOINTAUTH ='http://155.138.233.164:8081/authority/client/';
   const id = sessionStorage.getItem("id");
 
   fetch(`${ENDPOINTCONFIG}${id}`, {

@@ -44,7 +44,6 @@ export default function NewAuthority(props) {
     var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
 
     if(pattern.test(e.target.value)){
-      console.log('entra en handleChangeEmail')
       setEmail(e.target.value);
       setPatternEmail(true);
     }
@@ -55,7 +54,6 @@ export default function NewAuthority(props) {
 
   const handleChangeName = (e) =>{
     var pattern = new RegExp("^[a-zA-Z ]+$");
-    console.log('entra en handleChangeName')
     if(pattern.test(e.target.value)){
       setName(e.target.value);
       setPatternName(true);
@@ -63,6 +61,9 @@ export default function NewAuthority(props) {
     else {setPatternName(false)}
   }
 
+  const handleChangePassword = (e) =>{
+    setPassword(e.target.value);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +76,11 @@ export default function NewAuthority(props) {
           setError("There are errors on Name input");
           setOpenSnack(true);
         }
-        else if( patternName && patternEmail){
+        else if(password === ""){
+          setError("The field password is empty");
+          setOpenSnack(true);
+        }
+        else if( patternName && patternEmail && password ){
 
         newAuthority('/authority',data,
                    (response) => {
@@ -139,7 +144,7 @@ export default function NewAuthority(props) {
             type="text"
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChangePassword}
             placeholder="Text input"/>
           </div>
       </div>

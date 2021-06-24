@@ -42,7 +42,7 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://localhost:8084`
+  baseURL: `http://155.138.233.164:8084`
 })
 
 const jwt =sessionStorage.getItem("jwt");
@@ -77,7 +77,7 @@ function DataTableAdmin() {
            'Authorization': 'Bearer ' + jwt
        }
      }
-    axios.get('http://localhost:8084/clients',
+    axios.get('http://155.138.233.164:8084/clients',
       config).then(res => {
             setData(res.data);
             console.log(res.data)
@@ -108,7 +108,7 @@ function DataTableAdmin() {
          'Authorization': 'Bearer ' + jwt
          }
        }
-            axios.put("http://localhost:8084/client/update/"+id_client, newData ,
+            axios.put("http://155.138.233.164:8084/client/update/"+id_client, newData ,
               config)
             .then(res => {
               const dataUpdate = [...data];
