@@ -6,6 +6,7 @@ import { newConfigurationUI } from '../services/newConfigurationUI.action.js';
 import Menu from './Menu.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {IP} from './Connection.js';
 
 export default function NewConfigurationUI(props) {
   const [icon, setIcon] = useState(null);
@@ -98,7 +99,7 @@ export default function NewConfigurationUI(props) {
       if (icon === null) {
           setOpenSnack(true);
       } else
-      newConfigurationUI('http://155.138.233.164:8085/configurationUI',
+      newConfigurationUI(IP+':8085/configurationUI',
                  formData,
                  (response) => {
                    console.log(response);

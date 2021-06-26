@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import VerifierCode from './VerifierCode.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {IP} from './Connection.js';
 
 
 export default function ForgotPassword(props) {
@@ -44,7 +45,7 @@ export default function ForgotPassword(props) {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      axios.get('http://155.138.233.164:8084/client/forgotPassword/?email='+email).then(res => {
+      axios.get(IP+':8084/client/forgotPassword/?email='+email).then(res => {
 
           const token = res.data.token;
           sessionStorage.setItem("jwt2", token);

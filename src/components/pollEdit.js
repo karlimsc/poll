@@ -7,6 +7,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Menu from './Menu.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {IP} from './Connection.js';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -252,7 +253,7 @@ _handleSubmit = (e) => {
     else {
 
       console.log(JSON.stringify(data));
-      const ENDPOINTUPDATEPOLL= 'http://155.138.233.164:8083/poll/update/';
+      const ENDPOINTUPDATEPOLL= IP+':8083/poll/update/';
       const id= this.props.match.params.id
       const options = {
         method: 'put',
@@ -276,7 +277,7 @@ _handleSubmit = (e) => {
 }
 
 fetchFindPoll(id) {
-  const ENDPOINTFINDPOLL= 'http://localhost:8083/poll/find/';
+  const ENDPOINTFINDPOLL= IP+':8083/poll/find/';
 
   fetch(`${ENDPOINTFINDPOLL}${id}`,{
     method: "GET",
@@ -296,8 +297,8 @@ fetchFindPoll(id) {
 }
 
 fetchUpcoming(){
-  const ENDPOINTCONFIG ='http://155.138.233.164:8085/configurationUI/client/';
-  const ENDPOINTAUTH ='http://155.138.233.164:8081/authority/client/';
+  const ENDPOINTCONFIG =IP+':8085/configurationUI/client/';
+  const ENDPOINTAUTH =IP+':8081/authority/client/';
   const id = sessionStorage.getItem("id");
 
   fetch(`${ENDPOINTCONFIG}${id}`, {

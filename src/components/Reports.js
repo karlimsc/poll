@@ -4,10 +4,11 @@ import Header from './Header.js'
 import Menu from './Menu.js'
 import { Bar } from 'react-chartjs-2'
 import { getResultsByIdPoll } from '../services/getResultsByIdPoll.action.js';
+import {IP} from './Connection.js';
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://155.138.233.164:8083`
+  baseURL: `${IP}:8083`
 })
 
 

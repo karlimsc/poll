@@ -1,6 +1,7 @@
 import axios from "axios";
+import {IP} from '../components/Connection.js';
 
-axios.defaults.baseURL = 'http://155.138.233.164:8083';
+axios.defaults.baseURL = IP+':8083';
 
 export const newPoll = (url,data, onSuccess, onError) => {
   return axios({

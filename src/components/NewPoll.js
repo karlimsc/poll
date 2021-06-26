@@ -151,7 +151,7 @@ export default class NewPoll extends Component {
   }
 
   handleDeletePart = i => e => {
-    console.log('entro aqui',i)
+    console.log('entro aqui en handleDeletePart',i)
     e.preventDefault()
     let participants = [
       ...this.state.participants.slice(0, i),
@@ -171,7 +171,9 @@ export default class NewPoll extends Component {
   }
 
   addPart = e => {
+
     let participants = this.state.participants.concat([''])
+    console.log("addPart",participants);
     this.setState({
       participants
     })
@@ -206,7 +208,7 @@ export default class NewPoll extends Component {
 
   submitPart = () =>{
       let part = this.state.participants;
-      console.log(part);
+      console.log("submitPart",part);
 
       this.setState({ showPart: false });
   }
@@ -234,6 +236,7 @@ export default class NewPoll extends Component {
           var item = arr[i];
           if (item["id_auth"] === auth["id_auth"]) {
               arr.splice(i, 1);
+              i--;
           }
       }
       this.setState({authorityList: arr});
@@ -637,7 +640,7 @@ render() {
                       onChange={this.handleTextPart(index)}
                       value={participant}
                     />
-                  <CancelIcon className="icon-close" onClick={this.handleDelete(index)}  />
+                  <CancelIcon className="icon-close" onClick={this.handleDeletePart(index)}  />
                   </span>
                 ))}
                 <AddCircleIcon className="icon-add" onClick={this.addPart} />

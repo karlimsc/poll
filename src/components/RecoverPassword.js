@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import Modal from 'react-bootstrap/Modal';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {IP} from './Connection.js';
 
 export default function RecoverPassword(props) {
     const [password, setPassword] = useState("");
@@ -62,7 +63,7 @@ export default function RecoverPassword(props) {
       const dataJson = {name, password};
 
       if(password === password2){
-        axios.put('http://155.138.233.164:8084/client/update/'+sessionStorage.getItem("id"),
+        axios.put(IP+':8084/client/update/'+sessionStorage.getItem("id"),
          dataJson, config)
         .then(res => {
                 setData(res.data);

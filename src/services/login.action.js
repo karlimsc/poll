@@ -1,7 +1,9 @@
 import jwt_decode from "jwt-decode";
+import {IP} from '../components/Connection.js';
+
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
-const ENDPOINT ='http://155.138.233.164:8084/client/login';
+const ENDPOINT =IP+':8084/client/login';
 
 export const loginUser = (user,dispatch,seterror) =>{ //login
 if(user != null){

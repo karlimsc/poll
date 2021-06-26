@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { Redirect } from 'react-router-dom'
+import {IP} from './Connection.js';
 
 
  export default class PanelPoll extends Component {
@@ -21,7 +22,7 @@ import { Redirect } from 'react-router-dom'
     const id = sessionStorage.getItem("id");
     console.log(sessionStorage.getItem("id"))
     if(id){
-     fetch(`http://155.138.233.164:8083/poll/client/${id}`, {
+     fetch(`${IP}:8083/poll/client/${id}`, {
           method: "GET",
           headers: {
             Accept: "application/json",

@@ -21,6 +21,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
 import Menu from './Menu.js'
+import {IP} from './Connection.js';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -44,7 +45,7 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://155.138.233.164:8081`
+  baseURL: `${IP}:8081`
 })
 
 const client= { "idClient" : id_client}
@@ -52,6 +53,12 @@ const client= { "idClient" : id_client}
 function validateEmail(email){
   const re = /^\S+@\S+\.\S+$/;
   return re.test(String(email).toLowerCase());
+}
+
+function validateStatus(status){
+  const re=/^[0-1]/;
+
+  return re.test(status);
 }
 
 function DataTableAuth() {
@@ -105,8 +112,8 @@ function DataTableAuth() {
     if(newData.email === "" || validateEmail(newData.email) === false){
       errorList.push("Please enter a valid email")
     }
-    if(newData.status === ""){
-      errorList.push("Please enter status")
+    if(newData.status === "" || validateStatus(newData.status) === false || (newData.status).length > 1){
+      errorList.push("Please enter correct status")
     }
 
     if(errorList.length < 1){

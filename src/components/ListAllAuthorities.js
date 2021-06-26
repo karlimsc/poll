@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {IP} from './Connection.js';
 
 import DataTableComp from './DatatableComp.js';
 
@@ -12,7 +13,7 @@ export default class ListAllAuthorities extends Component{
   state = { auth: [] }
 
   fetchUpcoming(){
-    const ENDPOINTAUTH ='http://155.138.233.164:8081/authorities';
+    const ENDPOINTAUTH =IP+':8081/authorities';
 
     fetch(`${ENDPOINTAUTH}`, {
       method: "GET",

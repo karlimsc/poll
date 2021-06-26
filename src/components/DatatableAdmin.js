@@ -19,6 +19,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import {IP} from './Connection.js';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -42,7 +43,7 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://155.138.233.164:8084`
+  baseURL: `${IP}:8084`
 })
 
 const jwt =sessionStorage.getItem("jwt");

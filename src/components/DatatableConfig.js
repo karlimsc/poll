@@ -23,6 +23,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
 import Menu from './Menu.js'
+import {IP} from './Connection.js';
 
 const tableIcons = {
   Add: () => <Link to='/configurationUI'><AddBox /></Link>,
@@ -46,7 +47,7 @@ const tableIcons = {
 };
 
 const api = axios.create({
-  baseURL: `http://155.138.233.164:8085`
+  baseURL: `${IP}:8085`
 })
 
 function DataTableConfig(props) {

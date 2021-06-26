@@ -22,7 +22,8 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
-import Menu from './Menu.js'
+import Menu from './Menu.js';
+import {IP} from './Connection.js';
 
 const tableIcons = {
   Add: () => <Link to='/poll'><AddBox /></Link>,
@@ -47,7 +48,7 @@ const tableIcons = {
 
 const id_client= sessionStorage.getItem("id");
 const api = axios.create({
-  baseURL: `http://155.138.233.164:8083`
+  baseURL: `${IP}:8083`
 })
 
 
